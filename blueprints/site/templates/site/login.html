@@ -1,0 +1,9 @@
+{% extends 'site/base.html' %}
+
+{% block content %}
+{{ super() }}
+    <form action="/survey/instruction" method="post">
+        {% include 'site/components/iogv_registration.html' %}
+        <input class="btn btn-primary" type="submit" value="Регистрация">
+    </form>
+{% endblock %}

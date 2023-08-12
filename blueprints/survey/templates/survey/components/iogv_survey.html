@@ -1,0 +1,130 @@
+<div class="d-block">
+    <div>
+        <h2>Опрос.</h2>
+        <p class="text-info">На часть вопросов достаточно просто выбрать пункт из списка и добавить градацию с помощью ползунка.
+            Другая часть вопросов должна иметь развёрнутый ответ.
+        </p>
+    </div>
+    {% for direction in data['data']['directions'] %}
+    <div class="">
+        <h3 class="text-direction d-blockanger border-bottom border-black">
+            {{ direction['title'] }}
+        </h3>
+        <div>
+            {% for criterions in direction['criterions'] %}
+                <h4 class="text-success border-bottom border-light">
+                    {{ criterions['title'] }}
+                </h4>
+                {% for subcriterions in criterions['subcriterions'] %}
+                    <div class="criterions card p-2 mt-2 mb-2">
+                        <h5 class="text-info card-title">
+                            {{ subcriterions['question_number'] }}. {{ subcriterions['title'] }}
+                        </h5>
+                        <div class="subcriterion card-body">
+                            {% if subcriterions['note'] %}
+                            <div class="form-label d-block">{{ subcriterions['note'] }}</div>
+                            {% endif %}
+                            {% for p in subcriterions["puncts"] %}
+                                <div class="d-flex flex-column">
+                                    <div class="question form-check form-check-inline">
+                                        <input class="form-check-input"
+                                               onchange="printRadioValue(this.value, this.id)"
+                                               oninput="printRadioValue(this.value, this.id)"
+                                               type="radio"
+                                               data-question-id="{{subcriterions['question_number']}}"
+                                               value="{{p['range_min']}}"
+                                               name="{{subcriterions['question_number']}}-radio"
+                                               id="{{subcriterions['question_number']}}-{{p['range_min']}}{{p['range_max']}}"
+                                               required>
+
+                                        {% if p['prompt']%}
+                                            <label class="form-check-label text-danger"
+                                                   for="{{subcriterions['question_number']}}-{{p['range_min']}}{{p['range_max']}}"
+                                                   title="{{p['prompt']}}">
+                                                {{p['title']}}
+                                            </label>
+                                        {% else %}
+                                            <label class="form-check-label"
+                                                   for="{{subcriterions['question_number']}}-{{p['range_min']}}{{p['range_max']}}">
+                                                {{p['title']}}
+                                            </label>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="d-flex align-items-center range-question form-check form-check-inline">
+                            <input class="m-2"
+                                    onchange="printRangeValue(this.value, this.id)"
+                                   oninput="printRangeValue(this.value, this.id)"
+                                   data-question-id="{{subcriterions['question_number']}}"
+                                   type="range"
+                                   name="{{subcriterions['question_number']}}-range"
+                                   id="{{subcriterions['question_number']}}-range"
+                                   value="0" min="0" max="1" step="0.25">
+
+                            <label name="{{subcriterions['question_number']}}-range-label"
+                                   id="{{subcriterions['question_number']}}-range-label"
+                                   for="{{subcriterions['question_number']}}-range">
+                                Ваша градация: 0
+                            </label>
+                        </div>
+                        {% if subcriterions['needed_answer'] %}
+                            <div>
+                                <label for="{{subcriterions['question_number']}}-textarea"
+                                       class="form-label">{{ criterions['question'] }}</label>
+                                <textarea class="form-control"
+                                          data-question-id="{{subcriterions['question_number']}}"
+                                          id="{{subcriterions['question_number']}}-textarea"
+                                          name="{{subcriterions['question_number']}}-textarea"
+                                          rows="3"
+                                          required></textarea>
+                            </div>
+                        {% else %}
+                            <div class="">
+                                <div onclick="addComment(this.id)" id="{{subcriterions['question_number']}}-add-button" data-question-id="{{subcriterions['question_number']}}" class="btn btn-primary mt-3">Добавить коментарий</div>
+                                <div onclick="deleteComment(this.id)" id="{{subcriterions['question_number']}}-delete-button" data-question-id="{{subcriterions['question_number']}}" class="btn btn-danger mb-3 mt-3" style="display: none">Удалить коментарий</div>
+                                <div id="{{subcriterions['question_number']}}-comment-container"></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {% if criterions['is_interview'] %}
+                    <div class="card p-2 m-2">
+                        <h5 class="text-info card-title">
+                            {{ criterions['question_number'] }}. {{ criterions['title'] }}
+                        </h5>
+                        <div class="card-body">
+                            {% if criterions['question'] %}
+                                <label for="{{ criterions['question_number'] }}-textarea" class="form-label">{{ criterions['question'] }}</label>
+                            {% else %}
+                                <label for="{{ criterions['question_number'] }}-textarea" class="form-label">Дайте развёрнутый ответ на вопрос.</label>
+                            {% endif %}
+                            <textarea class="form-control" id="{{ criterions['question_number'] }}-textarea", name="{{ criterions['question_number'] }}-textarea" rows="4" required></textarea>
+                            <div class="d-flex align-items-center">
+                                <input class="m-3"
+                                       onchange="printRangeValue(this.value, this.id)"
+                                       oninput="printRangeValue(this.value, this.id)"
+                                       data-question-id="{{criterions['question_number']}}"
+                                       type="range"
+                                       name="{{criterions['question_number']}}-answer_range"
+                                       id="{{criterions['question_number']}}-range"
+                                       value="0" min="0" max="4" step="0.25">
+                                <label name="{{criterions['question_number']}}-range-label"
+                                       id="{{criterions['question_number']}}-range-label"
+                                       for="{{criterions['question_number']}}-range">
+                                    Ваша градация: 0
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Закончить опрос</button>
+</div>

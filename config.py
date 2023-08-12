@@ -1,0 +1,7 @@
+PROJECT_VERSION = 0.1
+ADMIN_NAME = "admin"
+ADMIN_PASSWORD = "password"
+DB_NAME = "temp.db"
+
+FLASK_DEBUG = True
+FLASK_SECRET_KEY = "SECRET_KEY"

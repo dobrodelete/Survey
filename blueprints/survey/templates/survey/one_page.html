@@ -1,0 +1,10 @@
+{% extends 'survey/base.html' %}
+
+{% block content %}
+{{ super() }}
+    <form action="/survey/one_page" method="post">
+        {% include 'survey/components/iogv_registration.html' %}
+        {% include 'survey/components/iogv_instruction.html' %}
+        {% include 'survey/components/iogv_survey.html' %}
+    </form>
+{% endblock %}

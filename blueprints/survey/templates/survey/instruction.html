@@ -1,0 +1,17 @@
+{% extends 'survey/base.html' %}
+
+{% block content %}
+{{ super() }}
+    <form action="/survey/start">
+        {% include 'survey/components/iogv_instruction.html' %}
+        <div class="p-3">
+            <input class="m-2" type="checkbox" name="true" id="agree" required>
+            <label for="agree">Я прочитал и готов приступить к опросу</label>
+        </div>
+
+
+        <div class="d-flex justify-content-center align-items-center">
+            <button type="submit" class="btn btn-primary" href="/survey/start">Приступить</button>
+        </div>
+    </form>
+{% endblock %}
