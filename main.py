@@ -5,9 +5,9 @@ from blueprints.site.site import site
 
 from flask import Flask
 
-from setup import setup_project
+# from setup import setup_project
 from config import FLASK_DEBUG, FLASK_SECRET_KEY
-setup_project()
+# setup_project()
 
 app = Flask(__name__)
 

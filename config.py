@@ -1,7 +1,11 @@
 PROJECT_VERSION = 0.1
 ADMIN_NAME = "admin"
 ADMIN_PASSWORD = "password"
-DB_NAME = "temp.db"
+DB_NAME = "survey.db"
+
+MAIN_REPORTS_FOLDER = "reports"
+JSON_REPORTS_FOLDER = "json"
+XLSX_REPORTS_FOLDER = "xlsx"
 
 FLASK_DEBUG = True
 FLASK_SECRET_KEY = "SECRET_KEY"

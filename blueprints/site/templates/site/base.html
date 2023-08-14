@@ -10,13 +10,6 @@
 </head>
 <body>
     <div class="container d-flex flex-column justify-content-center align-items-center pb-lg-5" style="max-width: 1200px;">
-<!--        <div id="notification" class="notification alert alert-warning alert-dismissible fade show" role="alert">-->
-<!--            <p class="mb-0">Мы используем cookie для корректной работы сайта. Если вы отключили работу cookie, то пожалуйста перейдите на версию опроса без cookie</p>-->
-<!--            <a href="/survey/one_page">Версия без cookie</a>-->
-<!--            <button type="button" class="close" onclick="closeNotification()">-->
-<!--                <span>Хорошо</span>-->
-<!--            </button>-->
-<!--        </div>-->
         {% include 'site/base/header_nav.html' %}
         {% if error %}
             <div class="alert alert-danger" role="alert">
@@ -26,9 +19,7 @@
         {% block content -%}
 
         {% endblock -%}
-
     </div>
-
 </body>
 <script src="/script/script.js"></script>
 </html>

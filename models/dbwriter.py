@@ -2,10 +2,11 @@ import json
 import sqlite3
 from datetime import datetime
 
+from config import DB_NAME
+
 
 def create_answer_dict(d: dict):
     r = dict(d)
-    # print(r)
     if "fullname" not in r:
         name = "Unknown"
     else:
@@ -40,11 +41,10 @@ def create_answer_dict(d: dict):
     with open("template.json", "w", encoding="utf8") as file:
         json.dump(new, file)
     return new
-    # write_one_page_answer(new)
 
 def write_one_page_answer(surv: dict):
     try:
-        conn = sqlite3.connect('C:\Edu\Survey\survey.db')
+        conn = sqlite3.connect(f"{DB_NAME}")
         cur = conn.cursor()
 
         sql_add_user = "INSERT INTO users (fullname, post, subdivision, iogv, cxreated_at) VALUES (?, ?, ?, ?, ?)"
@@ -89,14 +89,3 @@ def write_one_page_answer(surv: dict):
         if (conn):
             conn.close()
             print("Соединение с SQLite закрыто")
-
-
-def add_iogv_to_db():
-    pass
-
-
-if __name__ == "__main__":
-    pass
-    # with open("5.json", "r", encoding="utf8") as file:
-    #     data = json.load(file)
-    # write_one_page_answer(create_answer_dict(data))

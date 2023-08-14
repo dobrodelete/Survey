@@ -22,13 +22,33 @@
                 placeholder="Начальник службы">
         </div>
     {% else %}
+        <div class="mb-3">
+            <label for="iogvSelect" class="form-label">Выберите ваш ИОГВ:</label>
+            <select id="iogvSelect" class="form-select form-select" name="iogv" aria-label=".form-select-lg example" required
+                onchange="changeStructuralSubdivision()">
+                    <option selected>Выберите название вашего ИОГВ</option>
+                {% for iogvs in iogv %}
+                    <option value="{{iogvs['link_name']}}">{{ iogvs['link_name'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="subdivision" class="form-label">Ваше подразделение:</label>
+            <input type="text" class="form-control" name="subdivision" id="subdivision" aria-describedby="subdivisionHelp" required
+                placeholder="Начальник Юридического управления" >
+        </div>
+        <div class="mb-3">
+            <label for="inputPost" class="form-label">Введите вашу должность:</label>
+            <input type="text" class="form-control" name="post" id="inputPost" aria-describedby="PostHelp" required
+                placeholder="Начальник службы">
+        </div>
     {% endif %}
 <!--    <div class="mb-3">-->
 <!--        <label for="inputFullname" class="form-label">Введите ваше ФИО:</label>-->
 <!--        <input type="text" class="form-control" name="fullname" id="inputFullname" aria-describedby="FullnameHelp" required-->
 <!--            placeholder="Иванов Иван Иванович" >-->
 <!--    </div>-->
-    <div class="form-group form-check">
+    <div class="form-group form-check mb-3">
         <input type="checkbox" class="form-check-input" id="privacyCheckbox" required>
         <label class="form-check-label" for="privacyCheckbox">Я подтверждаю <a href="/privacy-policy">политику конфиденциальности</a></label>
     </div>

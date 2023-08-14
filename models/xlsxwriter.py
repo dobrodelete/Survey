@@ -5,12 +5,12 @@ from openpyxl import load_workbook
 from openpyxl.comments import Comment
 from openpyxl.styles import Color, PatternFill
 
-from models.dbwriter import create_answer_dict
+from config import MAIN_REPORTS_FOLDER, XLSX_REPORTS_FOLDER, JSON_REPORTS_FOLDER
 
 
 def writedata(d):
-    # with open("insert_data.json", "r", encoding="utf8") as file:
-    #     insert_data = json.load(file)
+    with open(f"{MAIN_REPORTS_FOLDER}/{JSON_REPORTS_FOLDER}/{d['iogv_id']}/{d['subdivision'].replace(' ', '_')}_{d['post'].replace(' ', '_')}{t}.json", "w") as file:
+        json.dump(d, file)
     print(d)
     with open("temp.json", "w") as file:
         json.dump(d, file)
@@ -38,9 +38,9 @@ def writedata(d):
     t = 1
     while flag:
         try:
-            if not os.path.exists(f"reports/{d['iogv_id']}"):
-                os.mkdir(f"reports/{d['iogv_id']}")
-            wb.save(f"reports/{d['iogv_id']}/{d['subdivision'].replace(' ', '_')}_{d['post'].replace(' ', '_')}{t}.xlsx")
+            if not os.path.exists(f"{MAIN_REPORTS_FOLDER}/{XLSX_REPORTS_FOLDER}/{d['iogv_id']}"):
+                os.mkdir(f"{MAIN_REPORTS_FOLDER}/{XLSX_REPORTS_FOLDER}/{d['iogv_id']}")
+            wb.save(f"{MAIN_REPORTS_FOLDER}/{XLSX_REPORTS_FOLDER}/{d['iogv_id']}/{d['subdivision'].replace(' ', '_')}_{d['post'].replace(' ', '_')}{t}.xlsx")
             flag = False
         except Exception as ex:
             print(ex)
@@ -49,13 +49,6 @@ def writedata(d):
             flag = False
 
 
-def main():
-    # with open("template.json", "r", encoding="utf8") as file:
-    #     data = json.load(file)
-    with open("C:\\Edu\\Survey\\static\\json\\tempdata\\11.json", "r", encoding="utf8") as file:
-        data = json.load(file)
-    writedata(create_answer_dict(data))
-        
 def create_insert_data_list():
     data = dict()
     data["1. Культура и управление"] = {}
@@ -83,9 +76,4 @@ def create_insert_data_list():
     for j in range(5, 11):
         data["6. Инфраструктура и инструменты"][f"{i}"] = f"E{j}"
         i += 1
-    # with open("insert_data.json", "w", encoding="utf-8") as file:
-        # json.dump(data, file)
     return data
-
-if __name__ == "__main__":
-    main()
