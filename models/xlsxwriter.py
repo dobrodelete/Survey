@@ -9,8 +9,16 @@ from config import MAIN_REPORTS_FOLDER, XLSX_REPORTS_FOLDER, JSON_REPORTS_FOLDER
 
 
 def writedata(d):
-    with open(f"{MAIN_REPORTS_FOLDER}/{JSON_REPORTS_FOLDER}/{d['iogv_id']}/{d['subdivision'].replace(' ', '_')}_{d['post'].replace(' ', '_')}{t}.json", "w") as file:
-        json.dump(d, file)
+    r = 1
+    while True:
+        if os.path.exists(
+                f"{MAIN_REPORTS_FOLDER}/{JSON_REPORTS_FOLDER}/{d['subdivision'].replace(' ', '_')}_{d['post'].replace(' ', '_')}{r}.json") is False:
+            with open(
+                    f"{MAIN_REPORTS_FOLDER}/{JSON_REPORTS_FOLDER}/{d['subdivision'].replace(' ', '_')}_{d['post'].replace(' ', '_')}{r}.json",
+                    "w") as file:
+                json.dump(d, file)
+            break
+        r += 1
     print(d)
     with open("temp.json", "w") as file:
         json.dump(d, file)
