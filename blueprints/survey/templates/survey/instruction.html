@@ -2,7 +2,7 @@
 
 {% block content %}
 {{ super() }}
-    <form action="/survey/start">
+    <form action="/survey/start" method="get">
         {% include 'survey/components/iogv_instruction.html' %}
         <div class="p-3">
             <input class="m-2" type="checkbox" name="true" id="agree" required>
