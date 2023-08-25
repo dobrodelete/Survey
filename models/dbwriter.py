@@ -47,9 +47,9 @@ def write_one_page_answer(surv: dict):
         conn = sqlite3.connect(f"{DB_NAME}")
         cur = conn.cursor()
 
-        sql_add_user = "INSERT INTO users (fullname, post, subdivision, iogv, cxreated_at) VALUES (?, ?, ?, ?, ?)"
+        sql_add_user = "INSERT INTO users (post, iogv_id, subdivision_id, person_id, created_at) VALUES (?, ?, ?, ?, ?)"
         now = datetime.now()
-        user = ("Unknown", surv["post"], surv["subdivision"], surv["iogv_id"], now)
+        user = (surv["post"], surv["iogv_id"], surv["subdivision"], "test", now)
         cur.execute(sql_add_user, user)
         conn.commit()
         sqltemp = "SELECT * FROM users ORDER BY id DESC LIMIT 1;"
@@ -66,20 +66,18 @@ def write_one_page_answer(surv: dict):
         record_id = cur.fetchone()[0]
 
         for q in surv["answer_questions"]:
-            sql_add_answer = "INSERT INTO answers (rid, number_question, question_number_answer, grade, comment)" \
-                             " VALUES (?, ?, ?, ?, ?)"
+            sql_add_answer = "INSERT INTO answers (rid, number_question, answer, comment)" \
+                             " VALUES (?, ?, ?, ?)"
             answer = None
             grade = None
             comment = None
             if "answer" in q["reply"]:
                 answer = q["reply"]["answer"]
-                grade = q["reply"]["grade"]
             if "comment" in q["reply"]:
                 comment = q["reply"]["comment"]
-            answers = (record_id, q["question"], answer, grade, comment)
+            answers = (record_id, q["question"], answer, comment)
             cur.execute(sql_add_answer, answers)
             conn.commit()
-
 
         cur.close()
 
@@ -88,4 +86,4 @@ def write_one_page_answer(surv: dict):
     finally:
         if (conn):
             conn.close()
-            print("Соединение с SQLite закрыто")
+            print("Соединение с базой данных было закрыто.")

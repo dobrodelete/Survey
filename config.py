@@ -1,7 +1,7 @@
 PROJECT_VERSION = 0.1
 ADMIN_NAME = "admin"
 ADMIN_PASSWORD = "password"
-DB_NAME = "survey.db"
+DB_NAME = "temp.db"
 
 MAIN_REPORTS_FOLDER = "reports"
 JSON_REPORTS_FOLDER = "json"

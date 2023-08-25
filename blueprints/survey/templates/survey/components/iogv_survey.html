@@ -1,20 +1,20 @@
 <div class="d-block">
     <div>
-        <h2>Опрос.</h2>
-        <p class="text-info">На часть вопросов достаточно просто выбрать пункт из списка и добавить градацию с помощью ползунка.
+        <h1 class="text-center">Опрос.</h1>
+        <p class="">На часть вопросов достаточно просто выбрать пункт из списка и добавить градацию с помощью ползунка.
             Другая часть вопросов должна иметь развёрнутый ответ.
         </p>
     </div>
     {% for direction in data['data']['directions'] %}
     <div class="">
-        <h3 class="text-direction d-blockanger border-bottom border-black">
-            {{ direction['title'] }}
-        </h3>
+<!--        <h3 class="text-direction d-blockanger border-bottom border-black">-->
+<!--            {{ direction['title'] }}-->
+<!--        </h3>-->
         <div>
             {% for criterions in direction['criterions'] %}
-                <h4 class="text-success border-bottom border-light">
-                    {{ criterions['title'] }}
-                </h4>
+<!--                <h4 class="text-success border-bottom border-light">-->
+<!--                    {{ criterions['title'] }}-->
+<!--                </h4>-->
                 {% for subcriterions in criterions['subcriterions'] %}
                     <div class="criterions card p-2 mt-2 mb-2">
                         <h5 class="text-info card-title">

@@ -19,11 +19,11 @@ def writedata(d):
                 json.dump(d, file)
             break
         r += 1
-    print(d)
+    # print(d)
     with open("temp.json", "w") as file:
         json.dump(d, file)
     insert_data = create_insert_data_list()
-    print(os.getcwd())
+    # print(os.getcwd())
 
     wb = load_workbook(filename="models/template.xlsx")
     for data in insert_data:
@@ -31,7 +31,7 @@ def writedata(d):
         for quest in d["answer_questions"]:
             for q, r in insert_data[data].items():
                 if int(quest["question"]) == int(q):
-                    print(f'{data} : {q} : {r} : {float(quest["reply"]["answer"])}')
+                    # print(f'{data} : {q} : {r} : {float(quest["reply"]["answer"])}')
                     ws[r].value = float(quest["reply"]["answer"])
                     if "comment" in quest["reply"]:
                         comment = Comment(quest["reply"]["comment"], "admin")

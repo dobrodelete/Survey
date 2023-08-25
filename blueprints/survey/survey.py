@@ -2,7 +2,7 @@ import json
 
 from flask import Blueprint, request, redirect, url_for, render_template, make_response
 
-from models.dbwriter import create_answer_dict
+from models.dbwriter import create_answer_dict, write_one_page_answer
 from models.xlsxwriter import writedata
 
 survey = Blueprint("survey", __name__, template_folder="templates", static_folder="static")
@@ -60,6 +60,8 @@ def survey_one_page():
         data = request.form.to_dict()
         answer = create_answer_dict(data)
         writedata(answer)
+        write_one_page_answer(answer)
+
 
     with open("static/json/surveyv2.json", "r", encoding="utf-8") as file:
         data = json.load(file)

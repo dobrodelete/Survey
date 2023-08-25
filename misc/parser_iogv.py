@@ -93,9 +93,6 @@ def parse_people():
     print(data)
 
 
-
-
-
 def get_child(d):
     childs = dict()
     if d["link_name"] is not None:
@@ -103,7 +100,6 @@ def get_child(d):
             childs[c["link_name"]] = get_child(c)
             # childs[-1] = get_child(c)
     return childs
-
 
 
 def create_list_iogv():
@@ -114,11 +110,6 @@ def create_list_iogv():
         iogv_list.append({iogv["link_name"]: get_child(iogv)})
     with open("../static/json/list_iogv.json", "w", encoding="utf8") as file:
         json.dump(iogv_list, file)
-    # print(iogv_list)
-        # get_child(iogv)
-        # print(iogv["link_name"])
-
-
 
 
 def write_iogv_db():
@@ -129,7 +120,6 @@ def write_iogv_db():
         title = iogv["link_name"]
         hierarchy_id = iogv["link_href"].split("/")[2]
         print(iogv["link_href"].split("/")[2])
-
 
 
 def main():
