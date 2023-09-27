@@ -122,12 +122,22 @@ def write_iogv_db():
         print(iogv["link_href"].split("/")[2])
 
 
-def main():
-    # parse_people()
-    # create_list_peoples()
-    # create_list_iogv()
-    write_iogv_db()
+def depersonalize():
+    with open("C:\Edu\Survey\static\json\iogvv2.json", 'r', encoding='utf8') as file:
+        iogv = json.load(file)
 
+    iogv_list = list()
+    for i in iogv:
+        iogv_list.append(i['link_name'])
+        # print(i['link_name'])
+    with open("C:\Edu\Survey\static\json\iogv.json", 'w', encoding='utf8') as file:
+        json.dump(iogv_list, file)
+
+
+
+def main():
+    depersonalize()
 
 if __name__ == "__main__":
     main()
+

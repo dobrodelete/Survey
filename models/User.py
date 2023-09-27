@@ -15,8 +15,8 @@ class User:
         db = sqlite3.connect('C:\Edu\Survey\identifier.sqlite')
         cursor = db.execute("SELECT * FROM admins;")
         for id, name, password in cursor.fetchall():
-            print(id, name, password)
+            # print(id, name, password)
             if name == login and password == passw:
-                print(name, login, password, passw)
+                # print(name, login, password, passw)
                 return True
         return False

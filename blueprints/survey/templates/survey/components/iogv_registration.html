@@ -5,9 +5,10 @@
             <label for="iogvSelect" class="form-label">Выберите ваш ИОГВ:</label>
             <select  id="iogvSelect" class="form-select form-select" name="iogv" aria-label=".form-select-lg example" required
                 onchange="changeStructuralSubdivision()">
-                    <option selected>Выберите название вашего ИОГВ</option>
+<!--                    <option selected>Выберите название вашего ИОГВ</option>-->
                 {% for iogvs in iogv %}
-                    <option value="{{iogvs['link_name']}}">{{ iogvs['link_name'] }}</option>
+<!--                    <option value="{{iogvs['link_name']}}">{{ iogvs['link_name'] }}</option>-->
+                        <option value="{{iogvs}}">{{iogvs}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -26,9 +27,11 @@
             <label for="iogvSelect" class="form-label">Выберите ваш ИОГВ:</label>
             <select id="iogvSelect" class="form-select form-select" name="iogv" aria-label=".form-select-lg example" required
                 onchange="changeStructuralSubdivision()">
-                    <option selected>Выберите название вашего ИОГВ</option>
+<!--                    <option selected>Выберите название вашего ИОГВ</option>-->
                 {% for iogvs in iogv %}
-                    <option value="{{iogvs['link_name']}}">{{ iogvs['link_name'] }}</option>
+<!--                    <option value="{{iogvs['link_name']}}">{{ iogvs['link_name'] }}</option>-->
+                        <option value="{{iogvs}}">{{iogvs}}</option>
+
                 {% endfor %}
             </select>
         </div>

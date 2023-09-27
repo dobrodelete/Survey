@@ -44,5 +44,3 @@ async function getIogvList() {
         alert("Ошибка HTTP: " + response.status);
     }
 }
-
-// getIogvList()

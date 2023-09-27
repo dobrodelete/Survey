@@ -1,0 +1,16 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+{{ super() }}
+    <div>
+        <h2>Данные опрашиваемых.</h2>
+        <div class="user-data">
+            <table>
+                
+            </table>
+            {% for row in data['rows'] %}
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
