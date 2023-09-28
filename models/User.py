@@ -1,7 +1,11 @@
 import sqlite3
+
+from config import DB_NAME
+
+
 class User:
     def __init__(self):
-        db = sqlite3.connect('C:\Edu\Survey\identifier.sqlite')
+        db = sqlite3.connect(f"C:\Edu\Survey\{DB_NAME}")
         try:
             db.execute('CREATE TABLE admins(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE, password TEXT NOT NULL)')
         except:
@@ -12,7 +16,7 @@ class User:
             pass
 
     def check_auth(self, login: str, passw: str) -> bool:
-        db = sqlite3.connect('C:\Edu\Survey\identifier.sqlite')
+        db = sqlite3.connect(f"{DB_NAME}")
         cursor = db.execute("SELECT * FROM admins;")
         for id, name, password in cursor.fetchall():
             # print(id, name, password)
