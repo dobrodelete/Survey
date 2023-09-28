@@ -6,11 +6,12 @@ import zipfile
 from flask import Blueprint, request, render_template, redirect, url_for, make_response, session, current_app, \
     send_from_directory
 
+from config import DB_NAME
 from models.User import User
 
 admin = Blueprint("admin", __name__, template_folder="templates", static_folder="static")
 
-UPLOAD_FOLDER = '\\reports'
+UPLOAD_FOLDER = '/reports'
 
 @admin.route("/", methods=["GET"])
 def admin_panel():
@@ -54,17 +55,6 @@ def admin_survey():
 @admin.route("/user_data", methods=["GET"])
 def admin_data():
     if "is_admin" in session:
-        type = request.args.get("content")
-        # print(os.getcwd())
-        if type is not None:
-            uploads = os.getcwd() + UPLOAD_FOLDER
-            print(uploads)
-            if type == "json":
-                return send_from_directory(uploads, "test.html")
-            elif type == "xlsx":
-                return send_from_directory(uploads, "test.html")
-            elif type == "database":
-                return send_from_directory(uploads, "test.html")
         return render_template("admin/user_data.html", title="Админ панель")
     else:
         return redirect(url_for(".admin_login"), 301)
@@ -72,32 +62,20 @@ def admin_data():
 
 @admin.route("/download/<type>")
 def download(type):
-    uploads = os.getcwd() + UPLOAD_FOLDER
-    print(uploads)
-    if type == "json":
-
-        # zf = zipfile.ZipFile("reports/json.zip", "w")
-        # for dirname, subdirs, files in os.walk("reports/json"):
-        #     zf.write(dirname)
-        #     for filename in files:
-        #         zf.write(os.path.join(dirname, filename))
-        # zf.close()
-        shutil.make_archive('reports/json', 'zip', 'reports/json')
-        return send_from_directory(uploads, "json.zip", as_attachment=True)
-    elif type == "xlsx":
-        # zf = zipfile.ZipFile("reports/xlsx.zip", "w")
-        # for dirname, subdirs, files in os.walk("reports/xlsx"):
-        #     zf.write(dirname)
-        #     for filename in files:
-        #         zf.write(os.path.join(dirname, filename))
-        shutil.make_archive('reports/xlsx', 'zip', f'reports/xlsx')
-        return send_from_directory(uploads, "xlsx.zip", as_attachment=True)
-    elif type == "database":
-        return send_from_directory(os.getcwd(), "temp.db", as_attachment=True)
-
-# @admin.route("/user_data", methods=["GET", "POST"])
-# def get_file():
-#     type = request.args.get("content")
+    if "is_admin" in session:
+        uploads = os.getcwd() + UPLOAD_FOLDER
+        print(uploads)
+        os.path.normpath(uploads)
+        if type == "json":
+            shutil.make_archive('reports/json', 'zip', 'reports/json')
+            return send_from_directory(uploads, "json.zip", as_attachment=True)
+        elif type == "xlsx":
+            shutil.make_archive('reports/xlsx', 'zip', f'reports/xlsx')
+            return send_from_directory(uploads, "xlsx.zip", as_attachment=True)
+        elif type == "database":
+            return send_from_directory(os.getcwd(), DB_NAME, as_attachment=True)
+    else:
+        return redirect(url_for(".admin_login"), 301)
 
 
 @admin.route("/statistics", methods=["GET"])
