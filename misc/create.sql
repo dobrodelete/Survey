@@ -38,3 +38,13 @@ create table answers
     answer REAL NOT NULL,
     comment TEXT
 );
+
+create table reports (
+    id integer primary key autoincrement,
+    iogv text not null,
+    subdv text not null,
+    post text not null,
+    created_at text not null,
+    link text not null,
+    record_id integer references record (id) on delete cascade
+)

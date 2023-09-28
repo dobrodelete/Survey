@@ -35,23 +35,23 @@ def survey_instruction():
             return redirect(url_for(".survey_login"), 301)
 
 
-@survey.route("/start", methods=["GET", "POST"])
-def survey_start():
-    if request.method == "GET":
-        if request.cookies.get("subdivision") is None or request.cookies.get("post") is None or request.cookies.get("iogv") is None:
-            return redirect(url_for(".survey_login"), 301)
-
-    if request.method == "POST":
-        data = request.form.to_dict()
-        data["iogv"] = request.cookies.get("iogv")
-        data["post"] = request.cookies.get("post")
-        data["subdivision"] = request.cookies.get("subdivision")
-        answer = create_answer_dict(data)
-        writedata(answer)
-    with open("static/json/surveyv2.json", "r", encoding="utf-8") as file:
-        data = json.load(file)
-    resp = make_response(render_template("survey/start.html", title="Опрос", data=data))
-    return resp
+# @survey.route("/start", methods=["GET", "POST"])
+# def survey_start():
+#     if request.method == "GET":
+#         if request.cookies.get("subdivision") is None or request.cookies.get("post") is None or request.cookies.get("iogv") is None:
+#             return redirect(url_for(".survey_login"), 301)
+#
+#     if request.method == "POST":
+#         data = request.form.to_dict()
+#         data["iogv"] = request.cookies.get("iogv")
+#         data["post"] = request.cookies.get("post")
+#         data["subdivision"] = request.cookies.get("subdivision")
+#         answer = create_answer_dict(data)
+#         writedata(answer)
+#     with open("static/json/surveyv2.json", "r", encoding="utf-8") as file:
+#         data = json.load(file)
+#     resp = make_response(render_template("survey/start.html", title="Опрос", data=data))
+#     return resp
 
 
 @survey.route("/one_page", methods=["GET", "POST"])
@@ -59,7 +59,6 @@ def survey_one_page():
     if request.method == "POST":
         data = request.form.to_dict()
         answer = create_answer_dict(data)
-        writedata(answer)
         write_one_page_answer(answer)
 
 

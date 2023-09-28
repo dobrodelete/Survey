@@ -8,13 +8,15 @@ from openpyxl.styles import Color, PatternFill
 from config import MAIN_REPORTS_FOLDER, XLSX_REPORTS_FOLDER, JSON_REPORTS_FOLDER
 
 
-def writedata(d):
+def writedata(d, record_id):
     r = 1
     while True:
+        if not os.path.exists(f"{MAIN_REPORTS_FOLDER}/{JSON_REPORTS_FOLDER}/{d['iogv_id']}"):
+            os.mkdir(f"{MAIN_REPORTS_FOLDER}/{JSON_REPORTS_FOLDER}/{d['iogv_id']}")
         if os.path.exists(
-                f"{MAIN_REPORTS_FOLDER}/{JSON_REPORTS_FOLDER}/{d['subdivision'].replace(' ', '_')}_{d['post'].replace(' ', '_')}{r}.json") is False:
+                f"{MAIN_REPORTS_FOLDER}/{JSON_REPORTS_FOLDER}/{d['iogv_id']}/{d['iogv_id']}_{d['subdivision']}_{d['post']}_{r}.json") is False:
             with open(
-                    f"{MAIN_REPORTS_FOLDER}/{JSON_REPORTS_FOLDER}/{d['subdivision'].replace(' ', '_')}_{d['post'].replace(' ', '_')}{r}.json",
+                    f"{MAIN_REPORTS_FOLDER}/{JSON_REPORTS_FOLDER}/{d['iogv_id']}/{d['iogv_id']}_{d['subdivision']}_{d['post']}_{r}.json",
                     "w") as file:
                 json.dump(d, file)
             break
@@ -48,7 +50,7 @@ def writedata(d):
         try:
             if not os.path.exists(f"{MAIN_REPORTS_FOLDER}/{XLSX_REPORTS_FOLDER}/{d['iogv_id']}"):
                 os.mkdir(f"{MAIN_REPORTS_FOLDER}/{XLSX_REPORTS_FOLDER}/{d['iogv_id']}")
-            wb.save(f"{MAIN_REPORTS_FOLDER}/{XLSX_REPORTS_FOLDER}/{d['iogv_id']}/{d['subdivision'].replace(' ', '_')}_{d['post'].replace(' ', '_')}{t}.xlsx")
+            wb.save(f"{MAIN_REPORTS_FOLDER}/{XLSX_REPORTS_FOLDER}/{d['iogv_id']}/{d['iogv_id']}_{d['subdivision']}_{d['post']}_{t}.xlsx")
             flag = False
         except Exception as ex:
             print(ex)

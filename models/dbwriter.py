@@ -3,6 +3,7 @@ import sqlite3
 from datetime import datetime
 
 from config import DB_NAME
+from models.xlsxwriter import writedata
 
 
 def create_answer_dict(d: dict):
@@ -79,11 +80,16 @@ def write_one_page_answer(surv: dict):
             cur.execute(sql_add_answer, answers)
             conn.commit()
 
+        writedata(surv, record_id)
         cur.close()
 
     except sqlite3.Error as error:
-        print("Ошибка при подключении к sqlite", error)
+        pass
+        # print("Ошибка при подключении к sqlite", error)
     finally:
         if (conn):
             conn.close()
-            print("Соединение с базой данных было закрыто.")
+            # print("Соединение с базой данных было закрыто.")
+
+def write_file_data():
+    pass
