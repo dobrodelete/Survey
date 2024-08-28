@@ -1,92 +1,55 @@
-from datetime import datetime
-from typing import Optional, List
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, Field, validator
+from typing import List, Optional
 
 
-class AdminBase(BaseModel):
-    name: str
-
-
-class AdminCreate(AdminBase):
-    password: str
-
-
-class AdminRead(AdminBase):
+class PunctModel(BaseModel):
     id: int
+    title: str
+    range_min: int
+    range_max: int
+    prompt: Optional[str]
+    comment: Optional[str]
+
+    class Config:
+        orm_mode = True
 
 
-class IogvBase(BaseModel):
-    hierarchy_id: str
-    depth_level: int
-    name: str
-    parent_id: Optional[str] = None
-
-
-class IogvCreate(IogvBase):
-    pass
-
-
-class IogvRead(IogvBase):
-    pass
-
-
-class UserBase(BaseModel):
-    post: str
-    iogv_id: Optional[str] = None
-    subdivision_id: Optional[str] = None
-    person_id: Optional[str] = None
-    created_at: str
-
-
-class UserCreate(UserBase):
-    pass
-
-
-class UserRead(UserBase):
+class SubcriterionModel(BaseModel):
     id: int
+    question_number: int
+    title: str
+    weight: float
+    needed_answer: bool
+    puncts: List[PunctModel] = []
+
+    class Config:
+        orm_mode = True
 
 
-class RecordBase(BaseModel):
-    uid: int
-    responce_time: Optional[str] = None
-    created_at: str
-
-
-class RecordCreate(RecordBase):
-    pass
-
-
-class RecordRead(RecordBase):
+class CriterionModel(BaseModel):
     id: int
+    title: str
+    number: str
+    subcriterions: List[SubcriterionModel] = []
+
+    class Config:
+        orm_mode = True
 
 
-class AnswerBase(BaseModel):
-    rid: int
-    number_question: int
-    answer: float
-    comment: Optional[str] = None
-
-
-class AnswerCreate(AnswerBase):
-    pass
-
-
-class AnswerRead(AnswerBase):
-    pass
-
-
-class ReportBase(BaseModel):
-    iogv: str
-    subdv: str
-    post: str
-    created_at: str
-    link: str
-    record_id: int
-
-
-class ReportCreate(ReportBase):
-    pass
-
-
-class ReportRead(ReportBase):
+class DirectionModel(BaseModel):
     id: int
+    title: str
+    criterions: List[CriterionModel] = []
+
+    class Config:
+        orm_mode = True
+
+
+class SurveyFormModel(BaseModel):
+    directions: List[DirectionModel] = []
+
+    @validator('directions', pre=True, always=True)
+    def validate_directions(cls, v):
+        if not v:
+            raise ValueError('Survey must have at least one direction')
+        return v
