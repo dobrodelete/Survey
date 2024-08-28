@@ -1,23 +1,19 @@
-from blueprints.admin.admin import admin
-from blueprints.survey.survey import survey
-from blueprints.api.api import api
-from blueprints.site.site import site
+from app import create_app, db
+from app.database import import_survey_data, import_iogv_data
+from app.models import create_admin_user
 
-from flask import Flask
+app = create_app()
 
-# from setup import setup_project
-from config import FLASK_DEBUG, FLASK_SECRET_KEY
-# setup_project()
+with app.app_context():
+    db.create_all()
+    with open("app/static/json/surveyv2.json", "r", encoding="utf-8") as file:
+        data = file.read()
+        import_survey_data(data)
 
-app = Flask(__name__)
+    with open("app/static/json/iogv.json", "r", encoding="utf-8") as file:
+        data = file.read()
+        import_iogv_data(data)
+    create_admin_user()
 
-app.config["SECRET_KEY"] = FLASK_SECRET_KEY
-
-app.register_blueprint(site, url_prefix="/")
-app.register_blueprint(survey, url_prefix="/survey/")
-app.register_blueprint(admin, url_prefix="/admin/")
-app.register_blueprint(api, url_prefix="/api/v1/")
-
-
-if __name__ == "__main__":
-    app.run(debug=FLASK_DEBUG)
+if __name__ == '__main__':
+    app.run(debug=True)

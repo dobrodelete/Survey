@@ -1,9 +1,0 @@
-{% extends 'survey/base.html' %}
-
-{% block content %}
-{{ super() }}
-    <form class="w-100" action="/survey/instruction" method="post">
-        {% include 'survey/components/iogv_registration.html' %}
-        <input class="btn btn-primary" type="submit" value="Регистрация">
-    </form>
-{% endblock %}

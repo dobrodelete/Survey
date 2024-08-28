@@ -1,0 +1,39 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+{{ super() }}
+    <h2>Данные опрашиваемых.</h2>
+    <div class="container">
+        <div class="user-data border-black border-2 container">
+            <div class="download-block">
+                <h3>Скачивание данных</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Наименование</th>
+                            <th>Вес</th>
+                            <th>Ссылка на скачивание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Скачать xlsx данные</td>
+                        <td>Вес</td>
+                        <td><a href="{{ url_for('admin.download', filetype='xlsx') }}" class="btn btn-secondary">Скачать</a></td>
+                    </tr>
+                    <tr>
+                        <td>Скачать json данные</td>
+                        <td>Вес</td>
+                        <td><a href="{{ url_for('admin.download', filetype='json') }}" class="btn btn-secondary">Скачать</a></td>
+                    </tr>
+                    <tr>
+                        <td>Скачать базу данных</td>
+                        <td>Вес</td>
+                        <td><a href="{{ url_for('admin.download', filetype='database') }}" class="btn btn-secondary">Скачать</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

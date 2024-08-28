@@ -1,0 +1,86 @@
+<form method="POST" action="">
+    {{ survey_form.hidden_tag() }}
+    {% for direction in survey_form.directions %}
+        <div class="direction">
+            {% for criterion in direction %}
+                <div class="criterion card p-2 mt-2 mb-2">
+                    <h5 class="text-info card-title">{{ criterion }}</h5>
+                    <div class="card-body">
+                        {% if criterion.subcriteria %}
+                            {% for subcriterion in criterion.subcriteria %}
+                                <div class="subcriterion">
+                                    <h6>{{ subcriterion.question_number.data }}. {{ subcriterion.title.data }}</h6>
+                                    <div class="radio-buttons">
+                                        {{ subcriterion.radio_buttons.label }}:
+                                        {% for choice in subcriterion.radio_buttons %}
+                                            <div class="form-check">
+                                                {{ choice }}
+                                                {{ choice.label }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="range-slider">
+                                        {{ subcriterion.range_slider.label }}:
+                                        {{ subcriterion.range_slider }}
+                                    </div>
+                                    <div class="comments">
+                                        {{ subcriterion.comments.label }}:
+                                        {{ subcriterion.comments }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% if criterion.question %}
+                            <div class="question">
+                                {{ criterion.question.label }}:
+                                {{ criterion.question }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>"direction">
+            {% for criterion in direction %}
+                <div class="criterion card p-2 mt-2 mb-2">
+                    <h5 class="text-info card-title">{{ criterion }}</h5>
+                    <div class="card-body">
+                        {% if criterion.subcriteria %}
+                            {% for subcriterion in criterion.subcriteria %}
+                                <div class="subcriterion">
+                                    <h6>{{ subcriterion.question_number.data }}. {{ subcriterion.title.data }}</h6>
+                                    {% if subcriterion.note.data %}
+                                        <div class="form-label">{{ subcriterion.note.data }}</div>
+                                    {% endif %}
+                                    <div class="radio-buttons">
+                                        {{ subcriterion.radio_buttons.label }}:
+                                        {% for choice in subcriterion.radio_buttons %}
+                                            <div class="form-check">
+                                                {{ choice }}
+                                                {{ choice.label }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="range-slider">
+                                        {{ subcriterion.range_slider.label }}:
+                                        {{ subcriterion.range_slider }}
+                                    </div>
+                                    <div class="comments">
+                                        {{ subcriterion.comments.label }}:
+                                        {{ subcriterion.comments }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% if criterion.question %}
+                            <div class="question">
+                                {{ criterion.question.label }}:
+                                {{ criterion.question }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">{{ survey_form.submit.label }}</button>
+</form>

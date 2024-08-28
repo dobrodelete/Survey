@@ -1,11 +1,7 @@
-PROJECT_VERSION = 0.1
-ADMIN_NAME = "admin"
-ADMIN_PASSWORD = "password"
-DB_NAME = "temp.db"
+import os
 
-MAIN_REPORTS_FOLDER = "reports"
-JSON_REPORTS_FOLDER = "json"
-XLSX_REPORTS_FOLDER = "xlsx"
 
-FLASK_DEBUG = True
-FLASK_SECRET_KEY = "SECRET_KEY"
+class Config:
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///app.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -1,0 +1,25 @@
+<div>
+    <h1 class="text-center">Регистрация</h1>
+    <form method="post">
+        {{ registration_form.hidden_tag() }}
+        <div class="mb-3">
+            {{ registration_form.iogv.label(class="form-label") }}
+            {{ registration_form.iogv(class="form-select form-select") }}
+        </div>
+        <div class="mb-3">
+            {{ registration_form.subdivision.label(class="form-label") }}
+            {{ registration_form.subdivision(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ registration_form.post.label(class="form-label") }}
+            {{ registration_form.post(class="form-control") }}
+        </div>
+        <div class="form-group form-check mb-3">
+            {{ registration_form.privacy(class="form-check-input") }}
+            <label class="form-check-label" for="privacyCheckbox">Я подтверждаю <a href="/privacy">политику конфиденциальности</a></label>
+        </div>
+        <div>
+            {{ registration_form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
