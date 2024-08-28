@@ -93,26 +93,18 @@ def start():
 
 @survey_bp.route('/survey', methods=['GET', 'POST'])
 def survey():
-    # Форма опроса
     form = SurveyForm()
 
-    # Форма регистрации
     registration_form = IogvRegistrationForm()
     
-    # Заглушка для инструкции
-    instruction = "Инструкция: Пожалуйста, внимательно прочитайте и заполните опросник."
-
-    # Загружаем данные для формы регистрации из базы данных
     iogvs = Iogv.query.all()
     registration_form.iogv.choices = [(iogv.hierarchy_id, iogv.name) for iogv in iogvs]
 
-    # Загружаем направления, критерии и подкритерии для формирования опроса
     directions = Direction.query.all()
 
     for direction in directions:
-        direction_form = DirectionForm()  # Создаем форму для каждого направления
+        direction_form = DirectionForm()
         direction_form.title.label = direction.title
-        
         for criterion in direction.criterions:
             criterion_form = CriterionForm()
             criterion_form.title.label.text = criterion.title
@@ -124,7 +116,6 @@ def survey():
                 subcriterion_form.title.label.text = subcriterion.title
                 subcriterion_form.range_slider.data = '0'
                 
-                # Добавляем варианты ответов для подкритерия
                 subcriterion_form.radio_buttons.choices = [
                     (p.range_min, p.title) for p in subcriterion.puncts
                 ]
@@ -133,16 +124,13 @@ def survey():
             
             direction_form.criterions.append_entry(criterion_form)
         
-        form.directions.append_entry(direction_form)  # добавляем направление в основную форму
+        form.directions.append_entry(direction_form)
 
-    # Проверка и сохранение формы
     if form.validate_on_submit() and registration_form.validate_on_submit():
-        # Логика сохранения данных опроса и регистрации
-        # Пример: сохраним форму регистрации
         user = User(
             post=registration_form.post.data,
             iogv_id=registration_form.iogv.data,
-            subdivision_id=None,  # Вы можете заполнить это поле при необходимости
+            subdivision_id=None,
             created_at=datetime.utcnow().isoformat()
         )
         db.session.add(user)
@@ -150,11 +138,10 @@ def survey():
 
         flash('Ваш ответ был записан.', 'success')
         return redirect(url_for('survey.survey'))
-
+    print(form.data)
     return render_template(
         'survey/survey.html',
         survey_form=form,
         registration_form=registration_form,
-        instruction=instruction,
         title='Опрос для ИОГВ'
     )
