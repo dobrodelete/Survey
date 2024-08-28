@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import db
 from app.forms import AdminLoginForm, ChangePasswordForm, SurveyForm, CommitteeForm
-from app.models import Admin, User, Record, Survey, Committee
+from app.models import Admin, User, Record, Survey, Committee, Direction, Criterion, Subcriterion, Punct
 
 admin_bp = Blueprint('admin', __name__, template_folder='templates/admin')
 
@@ -116,6 +116,197 @@ def view_committees():
     form = CommitteeForm()
     form.parent_id.choices = [(0, 'Нет родительского комитета')] + [(committee.id, committee.name) for committee in Committee.query.all()]
     return render_template('admin/committees.html', form=form)
+
+
+@admin_bp.route('/questions')
+def questions():
+    directions = Direction.query.all()
+    criterions = Criterion.query.all()
+    subcriterions = Subcriterion.query.all()
+    puncts = Punct.query.all()
+
+    return render_template(
+        'admin/questions.html',
+        directions=directions,
+       criterions=criterions,
+       subcriterions=subcriterions,
+       puncts=puncts,
+       title='Вопросы'
+    )
+
+
+# Добавление направления
+@admin_bp.route('/add_direction', methods=['GET', 'POST'])
+def add_direction():
+    if request.method == 'POST':
+        title = request.form['title']
+        new_direction = Direction(title=title)
+        db.session.add(new_direction)
+        db.session.commit()
+        flash('Новое направление добавлено!')
+        return redirect(url_for('admin.questions'))
+    return render_template('admin/add_direction.html')
+
+
+# Редактирование направления
+@admin_bp.route('/edit_direction/<int:direction_id>', methods=['GET', 'POST'])
+def edit_direction(direction_id):
+    direction = Direction.query.get_or_404(direction_id)
+    if request.method == 'POST':
+        direction.title = request.form['title']
+        db.session.commit()
+        flash('Направление обновлено!')
+        return redirect(url_for('admin.questions'))
+    return render_template('admin/edit_direction.html', direction=direction)
+
+
+# Удаление направления
+@admin_bp.route('/delete_direction/<int:direction_id>', methods=['GET'])
+def delete_direction(direction_id):
+    direction = Direction.query.get_or_404(direction_id)
+    db.session.delete(direction)
+    db.session.commit()
+    flash('Направление удалено!')
+    return redirect(url_for('admin.questions'))
+
+
+# Аналогичные маршруты для Критериев, Подкритериев и Вопросов
+
+# Добавление критерия
+@admin_bp.route('/add_criterion', methods=['GET', 'POST'])
+def add_criterion():
+    directions = Direction.query.all()
+    if request.method == 'POST':
+        title = request.form['title']
+        number = request.form['number']
+        direction_id = request.form['direction_id']
+        new_criterion = Criterion(title=title, number=number, direction_id=direction_id)
+        db.session.add(new_criterion)
+        db.session.commit()
+        flash('Новый критерий добавлен!')
+        return redirect(url_for('admin.questions'))
+    return render_template('admin/add_criterion.html', directions=directions)
+
+
+# Редактирование критерия
+@admin_bp.route('/edit_criterion/<int:criterion_id>', methods=['GET', 'POST'])
+def edit_criterion(criterion_id):
+    criterion = Criterion.query.get_or_404(criterion_id)
+    directions = Direction.query.all()
+    if request.method == 'POST':
+        criterion.title = request.form['title']
+        criterion.number = request.form['number']
+        criterion.direction_id = request.form['direction_id']
+        db.session.commit()
+        flash('Критерий обновлен!')
+        return redirect(url_for('admin.questions'))
+    return render_template('admin/edit_criterion.html', criterion=criterion, directions=directions)
+
+
+# Удаление критерия
+@admin_bp.route('/delete_criterion/<int:criterion_id>', methods=['GET'])
+def delete_criterion(criterion_id):
+    criterion = Criterion.query.get_or_404(criterion_id)
+    db.session.delete(criterion)
+    db.session.commit()
+    flash('Критерий удален!')
+    return redirect(url_for('admin.questions'))
+
+
+# Добавление подкритерия
+@admin_bp.route('/add_subcriterion', methods=['GET', 'POST'])
+def add_subcriterion():
+    criterions = Criterion.query.all()
+    if request.method == 'POST':
+        title = request.form['title']
+        criterion_id = request.form['criterion_id']
+        new_subcriterion = Subcriterion(title=title, criterion_id=criterion_id)
+        db.session.add(new_subcriterion)
+        db.session.commit()
+        flash('Новый подкритерий добавлен!')
+        return redirect(url_for('admin.questions'))
+    return render_template('admin/add_subcriterion.html', criterions=criterions)
+
+
+# Редактирование подкритерия
+@admin_bp.route('/edit_subcriterion/<int:subcriterion_id>', methods=['GET', 'POST'])
+def edit_subcriterion(subcriterion_id):
+    subcriterion = Subcriterion.query.get_or_404(subcriterion_id)
+    criterions = Criterion.query.all()
+    if request.method == 'POST':
+        subcriterion.title = request.form['title']
+        subcriterion.criterion_id = request.form['criterion_id']
+        db.session.commit()
+        flash('Подкритерий обновлен!')
+        return redirect(url_for('admin.questions'))
+    return render_template('admin/edit_subcriterion.html', subcriterion=subcriterion, criterions=criterions)
+
+
+# Удаление подкритерия
+@admin_bp.route('/delete_subcriterion/<int:subcriterion_id>', methods=['GET'])
+def delete_subcriterion(subcriterion_id):
+    subcriterion = Subcriterion.query.get_or_404(subcriterion_id)
+    db.session.delete(subcriterion)
+    db.session.commit()
+    flash('Подкритерий удален!')
+    return redirect(url_for('admin.questions'))
+
+
+# Добавление вопроса
+@admin_bp.route('/add_punct', methods=['GET', 'POST'])
+def add_punct():
+    subcriterions = Subcriterion.query.all()
+    if request.method == 'POST':
+        title = request.form['title']
+        range_min = request.form['range_min']
+        range_max = request.form['range_max']
+        subcriterion_id = request.form['subcriterion_id']
+        new_punct = Punct(title=title, range_min=range_min, range_max=range_max, subcriterion_id=subcriterion_id)
+        db.session.add(new_punct)
+        db.session.commit()
+        flash('Новый вопрос добавлен!')
+        return redirect(url_for('admin.questions'))
+    return render_template('admin/add_punct.html', subcriterions=subcriterions)
+
+
+# Редактирование вопроса
+@admin_bp.route('/edit_punct/<int:punct_id>', methods=['GET', 'POST'])
+def edit_punct(punct_id):
+    punct = Punct.query.get_or_404(punct_id)
+    subcriterions = Subcriterion.query.all()
+    if request.method == 'POST':
+        punct.title = request.form['title']
+        punct.range_min = request.form['range_min']
+        punct.range_max = request.form['range_max']
+        punct.subcriterion_id = request.form['subcriterion_id']
+        db.session.commit()
+        flash('Вопрос обновлен!')
+        return redirect(url_for('admin.questions'))
+    return render_template('admin/edit_punct.html', punct=punct, subcriterions=subcriterions)
+
+
+# Удаление вопроса
+@admin_bp.route('/delete_punct/<int:punct_id>', methods=['GET'])
+def delete_punct(punct_id):
+    punct = Punct.query.get_or_404(punct_id)
+    db.session.delete(punct)
+    db.session.commit()
+    flash('Вопрос удален!')
+    return redirect(url_for('admin.questions'))
+
+
+@admin_bp.route('/questions_tree')
+def questions_tree():
+    directions = Direction.query.all()
+
+    for direction in directions:
+        direction.total_rows = sum(len(criterion.subcriterions) for criterion in direction.criterions)
+        for criterion in direction.criterions:
+            criterion.subcriterion_count = len(criterion.subcriterions)
+            for subcriterion in criterion.subcriterions:
+                subcriterion.punct_count = len(subcriterion.puncts)
+
+    return render_template('admin/questions_tree.html', directions=directions)
 
 
 @admin_bp.route('/api/committees', methods=['GET'])
