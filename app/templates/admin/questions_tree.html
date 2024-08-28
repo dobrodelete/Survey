@@ -16,9 +16,6 @@
                     Подкритерий
                 </th>
                 <th>
-                    Вопрос
-                </th>
-                <th>
                     Ответы (пункты)
                 </th>
             </tr>
@@ -26,7 +23,7 @@
         <tbody>
             {% for direction in directions %}
                 <tr>
-                    <td rowspan="{{ direction.total_rows }}">{{ direction.title }}</td>
+                    <td rowspan="{{ direction }}">{{ direction.title }}</td>
                     <td colspan="4">{{ direction.criterions[0].title }}</td>
                 </tr>
                 {% for criterion in direction.criterions %}

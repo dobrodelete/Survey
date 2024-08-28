@@ -1,3 +1,5 @@
+import json
+
 from flask import render_template, redirect, url_for, flash, request, send_file, Blueprint, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -135,7 +137,6 @@ def questions():
     )
 
 
-# Добавление направления
 @admin_bp.route('/add_direction', methods=['GET', 'POST'])
 def add_direction():
     if request.method == 'POST':
@@ -148,7 +149,6 @@ def add_direction():
     return render_template('admin/add_direction.html')
 
 
-# Редактирование направления
 @admin_bp.route('/edit_direction/<int:direction_id>', methods=['GET', 'POST'])
 def edit_direction(direction_id):
     direction = Direction.query.get_or_404(direction_id)
@@ -160,7 +160,6 @@ def edit_direction(direction_id):
     return render_template('admin/edit_direction.html', direction=direction)
 
 
-# Удаление направления
 @admin_bp.route('/delete_direction/<int:direction_id>', methods=['GET'])
 def delete_direction(direction_id):
     direction = Direction.query.get_or_404(direction_id)
@@ -170,9 +169,6 @@ def delete_direction(direction_id):
     return redirect(url_for('admin.questions'))
 
 
-# Аналогичные маршруты для Критериев, Подкритериев и Вопросов
-
-# Добавление критерия
 @admin_bp.route('/add_criterion', methods=['GET', 'POST'])
 def add_criterion():
     directions = Direction.query.all()
@@ -188,7 +184,6 @@ def add_criterion():
     return render_template('admin/add_criterion.html', directions=directions)
 
 
-# Редактирование критерия
 @admin_bp.route('/edit_criterion/<int:criterion_id>', methods=['GET', 'POST'])
 def edit_criterion(criterion_id):
     criterion = Criterion.query.get_or_404(criterion_id)
@@ -203,7 +198,6 @@ def edit_criterion(criterion_id):
     return render_template('admin/edit_criterion.html', criterion=criterion, directions=directions)
 
 
-# Удаление критерия
 @admin_bp.route('/delete_criterion/<int:criterion_id>', methods=['GET'])
 def delete_criterion(criterion_id):
     criterion = Criterion.query.get_or_404(criterion_id)
@@ -213,7 +207,6 @@ def delete_criterion(criterion_id):
     return redirect(url_for('admin.questions'))
 
 
-# Добавление подкритерия
 @admin_bp.route('/add_subcriterion', methods=['GET', 'POST'])
 def add_subcriterion():
     criterions = Criterion.query.all()
@@ -228,7 +221,6 @@ def add_subcriterion():
     return render_template('admin/add_subcriterion.html', criterions=criterions)
 
 
-# Редактирование подкритерия
 @admin_bp.route('/edit_subcriterion/<int:subcriterion_id>', methods=['GET', 'POST'])
 def edit_subcriterion(subcriterion_id):
     subcriterion = Subcriterion.query.get_or_404(subcriterion_id)
@@ -242,7 +234,6 @@ def edit_subcriterion(subcriterion_id):
     return render_template('admin/edit_subcriterion.html', subcriterion=subcriterion, criterions=criterions)
 
 
-# Удаление подкритерия
 @admin_bp.route('/delete_subcriterion/<int:subcriterion_id>', methods=['GET'])
 def delete_subcriterion(subcriterion_id):
     subcriterion = Subcriterion.query.get_or_404(subcriterion_id)
@@ -252,7 +243,6 @@ def delete_subcriterion(subcriterion_id):
     return redirect(url_for('admin.questions'))
 
 
-# Добавление вопроса
 @admin_bp.route('/add_punct', methods=['GET', 'POST'])
 def add_punct():
     subcriterions = Subcriterion.query.all()
@@ -285,7 +275,6 @@ def edit_punct(punct_id):
     return render_template('admin/edit_punct.html', punct=punct, subcriterions=subcriterions)
 
 
-# Удаление вопроса
 @admin_bp.route('/delete_punct/<int:punct_id>', methods=['GET'])
 def delete_punct(punct_id):
     punct = Punct.query.get_or_404(punct_id)
@@ -299,12 +288,7 @@ def delete_punct(punct_id):
 def questions_tree():
     directions = Direction.query.all()
 
-    for direction in directions:
-        direction.total_rows = sum(len(criterion.subcriterions) for criterion in direction.criterions)
-        for criterion in direction.criterions:
-            criterion.subcriterion_count = len(criterion.subcriterions)
-            for subcriterion in criterion.subcriterions:
-                subcriterion.punct_count = len(subcriterion.puncts)
+    print(json.dumps([direction.to_dict() for direction in directions], ensure_ascii=False, indent=4))
 
     return render_template('admin/questions_tree.html', directions=directions)
 
