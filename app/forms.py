@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, RadioField, FieldList, \
-    FormField
+    FormField, BooleanField
 from wtforms.validators import DataRequired, EqualTo, Email, Optional
 
 
@@ -14,12 +14,6 @@ class ChangePasswordForm(FlaskForm):
     new_password = PasswordField('New Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('Change Password')
-
-
-# class SurveyForm(FlaskForm):
-#     question = StringField('Question', validators=[DataRequired()])
-#     answer = StringField('Answer', validators=[DataRequired()])
-#     submit = SubmitField('Submit')
 
 
 class SubcriterionForm(FlaskForm):
@@ -39,7 +33,7 @@ class CriterionForm(FlaskForm):
 
 
 class DirectionForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
+    title = StringField('Направление', validators=[DataRequired()])
     criterions = FieldList(FormField(CriterionForm), min_entries=1)
 
 
@@ -68,3 +62,11 @@ class CommitteeForm(FlaskForm):
     info = TextAreaField('Информация о комитете')
     parent_id = SelectField('Родительский комитет', coerce=int, choices=[])
     submit = SubmitField('Добавить комитет')
+
+
+class IogvRegistrationForm(FlaskForm):
+    iogv = SelectField('Выберите ваш ИОГВ', validators=[DataRequired()], choices=[])
+    subdivision = StringField('Ваше подразделение', validators=[DataRequired()])
+    post = StringField('Введите вашу должность', validators=[DataRequired()])
+    privacy = BooleanField('Я принимаю политику конфиденциальности', validators=[DataRequired()])
+    submit = SubmitField('Регистрация')

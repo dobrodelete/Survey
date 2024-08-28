@@ -1,15 +1,17 @@
 <form method="POST" action="">
     {{ survey_form.hidden_tag() }}
     {% for direction in survey_form.directions %}
+        <h5>{{ direction.title.label }}</h5>
+        <h4>{{ direction }}</h4>
         <div class="direction">
-            {% for criterion in direction %}
+            {% for criterion in direction.criterions %}
                 <div class="criterion card p-2 mt-2 mb-2">
-                    <h5 class="text-info card-title">{{ criterion }}</h5>
+                    <h5 class="text-info card-title">{{ criterion.title.label }}</h5>
                     <div class="card-body">
                         {% if criterion.subcriteria %}
                             {% for subcriterion in criterion.subcriteria %}
                                 <div class="subcriterion">
-                                    <h6>{{ subcriterion.question_number.data }}. {{ subcriterion.title.data }}</h6>
+                                    <h6>{{ subcriterion.question_number.label.text }}. {{ subcriterion_form.title.label.text }}</h6>
                                     <div class="radio-buttons">
                                         {{ subcriterion.radio_buttons.label }}:
                                         {% for choice in subcriterion.radio_buttons %}
@@ -39,10 +41,10 @@
                     </div>
                 </div>
             {% endfor %}
-        </div>"direction">
+        </div class="direction">
             {% for criterion in direction %}
                 <div class="criterion card p-2 mt-2 mb-2">
-                    <h5 class="text-info card-title">{{ criterion }}</h5>
+                    <h5 class="text-info card-title">{{ criterion.title }}</h5>
                     <div class="card-body">
                         {% if criterion.subcriteria %}
                             {% for subcriterion in criterion.subcriteria %}
