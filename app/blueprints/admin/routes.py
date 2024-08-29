@@ -7,6 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app import db
 from app.forms import AdminLoginForm, ChangePasswordForm, SurveyForm, CommitteeForm
 from app.models import Admin, User, Record, Survey, Committee, Direction, Criterion, Subcriterion, Punct
+from app.schemas import Data
 
 admin_bp = Blueprint('admin', __name__, template_folder='templates/admin')
 
@@ -286,11 +287,12 @@ def delete_punct(punct_id):
 
 @admin_bp.route('/questions_tree')
 def questions_tree():
-    directions = Direction.query.all()
+    directions_data = Direction.query.all()
 
-    print(json.dumps([direction.to_dict() for direction in directions], ensure_ascii=False, indent=4))
+    data = Data.model_validate({"directions": [direction.to_dict() for direction in directions_data]})
+    print(data)
 
-    return render_template('admin/questions_tree.html', directions=directions)
+    return render_template('admin/questions_tree.html', directions=directions_data, data=data)
 
 
 @admin_bp.route('/api/committees', methods=['GET'])
@@ -318,9 +320,6 @@ def api_sub_committees(parent_id):
 @admin_bp.route('/api/committees', methods=['POST'])
 def add_committee():
     form = CommitteeForm()
-    print(form.name.data)
-    print(form.info.data)
-    print(form.parent_id.data)
     if form.validate_on_submit():
         committee = Committee(
             name=form.name.data,

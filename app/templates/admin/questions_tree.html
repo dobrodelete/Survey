@@ -2,61 +2,40 @@
 
 {% block content %}
 
-<h1>Управление вопросами</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Направление
-                </th>
-                <th>
-                    Критерий
-                </th>
-                <th>
-                    Подкритерий
-                </th>
-                <th>
-                    Ответы (пункты)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for direction in directions %}
+<h1>Управление вопросами</h1>\
+    {% for direction in data.directions %}
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td rowspan="{{ direction }}">{{ direction.title }}</td>
-                    <td colspan="4">{{ direction.criterions[0].title }}</td>
+                    <th>Направление</th>
+                    <th>Критерия</th>
+                    <th>Подкатегория</th>
+                    <th>Вес</th>
+                    <th>Вопрос 1</th>
+                    <th>Вопрос 2</th>
+                    <th>Вопрос 3</th>
+                    <th>Вопрос 4</th>
                 </tr>
-                {% for criterion in direction.criterions %}
-                    {% if not loop.first %}
-                        <tr>
-                            <td colspan="4">{{ criterion.title }}</td>
-                        </tr>
-                    {% endif %}
+            </thead>
+            <tbody>
+                    {% for criterion in direction.criterions %}
+                <tr>
+                    <td rowspan="{{ direction.criterions|length }}">
+                        {{ direction.title }}
+                    </td>
+                    <td rowspan="{{ criterion.subcriterions|length }}">{{ criterion.title }}</td>
                     {% for subcriterion in criterion.subcriterions %}
-                        <tr class="nested">
-                            <td></td>
-                            <td colspan="3">{{ subcriterion.title }}</td>
-                        </tr>
-                        {% for question in subcriterion.questions %}
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>{{ question.title }}</td>
-                                <td>
-                                    <ul>
-                                        {% for punct in question.puncts %}
-                                            <li>{{ punct.title }} ({{ punct.range_min }} - {{ punct.range_max }})</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                            </tr>
+                        <td>{{ subcriterion.title }}</td>
+                        <td>{{ subcriterion.weight }}</td>
+                        {% for punct in subcriterion.puncts %}
+                            <td>{{ punct.title }}</td>
                         {% endfor %}
                     {% endfor %}
-                {% endfor %}
-            {% endfor %}
-        </tbody>
-    </table>
-
+                </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
 <script>
     $(function(){
   $("table").colResizable();

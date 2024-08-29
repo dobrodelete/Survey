@@ -230,6 +230,8 @@ class Criterion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     number = db.Column(db.String, nullable=False)
+    weight = db.Column(db.Float, nullable=True)
+    needed_answer = db.Column(db.Boolean, default=False, nullable=False)
     direction_id = db.Column(db.Integer, db.ForeignKey('directions.id'), nullable=False)
     subcriterions = db.relationship('Subcriterion', backref='criterion', lazy=True)
 
@@ -238,6 +240,7 @@ class Criterion(db.Model):
             'id': self.id,
             'title': self.title,
             'number': self.number,
+            'direction_id': self.direction_id,
             'subcriterions': [subcriterion.to_dict() for subcriterion in self.subcriterions]
         }
 
@@ -258,6 +261,7 @@ class Subcriterion(db.Model):
             'question_number': self.question_number,
             'title': self.title,
             'weight': self.weight,
+            'criterion_id': self.criterion_id,
             'needed_answer': self.needed_answer,
             'puncts': [punct.to_dict() for punct in self.puncts]
         }
@@ -280,5 +284,6 @@ class Punct(db.Model):
             'range_min': self.range_min,
             'range_max': self.range_max,
             'prompt': self.prompt,
-            'comment': self.comment
+            'comment': self.comment,
+            'subcriterion_id': self.subcriterion_id
         }

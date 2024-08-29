@@ -1,55 +1,53 @@
-from pydantic import BaseModel, Field, validator
-from typing import List, Optional
+from typing import List, Optional, Any
+
+from pydantic import BaseModel
 
 
-class PunctModel(BaseModel):
+class Punct(BaseModel):
     id: int
     title: str
-    range_min: int
     range_max: int
-    prompt: Optional[str]
-    comment: Optional[str]
+    range_min: int
+    prompt: Any
+    comment: Any
+    subcriterion_id: int
 
-    class Config:
-        orm_mode = True
 
-
-class SubcriterionModel(BaseModel):
+class Subcriterion(BaseModel):
     id: int
     question_number: int
     title: str
     weight: float
+    criterion_id: int
+    # note: Optional[str]
     needed_answer: bool
-    puncts: List[PunctModel] = []
-
-    class Config:
-        orm_mode = True
+    puncts: List[Punct]
 
 
-class CriterionModel(BaseModel):
+class Criterion(BaseModel):
     id: int
     title: str
     number: str
-    subcriterions: List[SubcriterionModel] = []
+    question_number: Optional[int] = None
+    weight: Optional[float] = None
+    question: Optional[Optional[str]] = None
+    detailed_response: Optional[bool] = None
+    direction_id: int
+    subcriterions: List[Subcriterion]
 
-    class Config:
-        orm_mode = True
 
-
-class DirectionModel(BaseModel):
+class Direction(BaseModel):
     id: int
     title: str
-    criterions: List[CriterionModel] = []
-
-    class Config:
-        orm_mode = True
+    criterions: List[Criterion]
 
 
-class SurveyFormModel(BaseModel):
-    directions: List[DirectionModel] = []
+class Data(BaseModel):
+    directions: List[Direction]
 
-    @validator('directions', pre=True, always=True)
-    def validate_directions(cls, v):
-        if not v:
-            raise ValueError('Survey must have at least one direction')
-        return v
+
+class Model(BaseModel):
+    title_en: str
+    title_ru: str
+    version: int
+    data: Data
