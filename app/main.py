@@ -1,5 +1,4 @@
 from app import create_app, db
-from app.database import import_survey_data
 from app.models import create_admin_user
 
 app = create_app()

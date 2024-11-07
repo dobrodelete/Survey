@@ -1,4 +1,4 @@
-{% extends 'site/base.html' %}
+{% extends 'survey/base.html' %}
 
 {% block content %}
 {{ super() }}
@@ -13,7 +13,7 @@
             {{ form.email.label(class="form-label") }}
             {{ form.email(class="form-control w-100") }}
         </div>
-        <div class="form-group">
+        <div class="form-group mb-3">
             {{ form.message.label(class="form-label") }}
             {{ form.message(class="form-control w-100") }}
         </div>
@@ -22,9 +22,14 @@
         </div>
     </form>
     <hr>
-    <p>Если у вас возникли вопросы или предложения, вы можете обратиться по следующим адресам:</p>
-    <ul>
-        <li>Email: {{ contact_info.email }}</li>
-        <li>Телефон: {{ contact_info.phone }}</li>
-    </ul>
+    {% if contact_info %}
+        <p>Если у вас возникли вопросы или предложения, вы можете обратиться по следующим адресам:</p>
+        <ul>
+            <li>Email: {{ contact_info.email }}</li>
+            <li>Телефон: {{ contact_info.phone }}</li>
+        </ul>
+    {% else %}
+        <p>Контактная информация временно недоступна.</p>
+    {% endif %}
+
 {% endblock %}

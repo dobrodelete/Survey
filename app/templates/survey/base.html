@@ -12,11 +12,15 @@
 <body>
     <div class="container d-flex flex-column justify-content-center align-items-center pb-lg-5" style="max-width: 1200px;">
         {% include 'survey/header_nav.html' %}
-        {% if error %}
-            <div class="alert alert-danger" role="alert">
-                  Ошибка: {{ error }}
-            </div>
-        {% endif %}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
         {% block content -%}
         {% endblock %}
     </div>

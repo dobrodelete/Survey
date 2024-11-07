@@ -1,9 +1,32 @@
+from datetime import datetime
+
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import UniqueConstraint
 from werkzeug.security import generate_password_hash
 
 db = SQLAlchemy()
+
+
+class Admin(UserMixin, db.Model):
+    __tablename__ = 'admins'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False, unique=True)
+    password = db.Column(db.String, nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
+
+
+def create_admin_user():
+    admin = Admin.query.filter_by(name='admin').first()
+    if not admin:
+        new_admin = Admin(name='admin', password=generate_password_hash('password', method='sha256'))
+        db.session.add(new_admin)
+        db.session.commit()
 
 
 class Committee(db.Model):
@@ -28,158 +51,101 @@ class Committee(db.Model):
         }
 
 
-class Person(db.Model):
-    __tablename__ = 'persons'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String, nullable=False)
-    position = db.Column(db.String)
-    committee_id = db.Column(db.Integer, db.ForeignKey('committees.id'))
-    committee = db.relationship('Committee', backref=db.backref('persons', lazy=True))
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'position': self.position,
-            'committee': self.committee.to_dict() if self.committee else None
-        }
-
-
-class Admin(UserMixin, db.Model):
-    __tablename__ = 'admins'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String, nullable=False, unique=True)
-    password = db.Column(db.String, nullable=False)
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name
-        }
-
-
-def create_admin_user():
-    admin = Admin.query.filter_by(name='admin').first()
-    if not admin:
-        new_admin = Admin(name='admin', password=generate_password_hash('password', method='sha256'))
-        db.session.add(new_admin)
-        db.session.commit()
-
-
-class Iogv(db.Model):
-    __tablename__ = 'iogv'
-    hierarchy_id = db.Column(db.String, primary_key=True)
-    depth_level = db.Column(db.Integer, nullable=False)
-    name = db.Column(db.String, nullable=False)
-    parent_id = db.Column(db.String, db.ForeignKey('iogv.hierarchy_id'), nullable=True)
-    parent = db.relationship('Iogv', remote_side=[hierarchy_id], backref=db.backref('sub_iogvs', lazy=True))
-
-    def to_dict(self):
-        return {
-            'hierarchy_id': self.hierarchy_id,
-            'depth_level': self.depth_level,
-            'name': self.name,
-            'parent_id': self.parent_id,
-            'sub_iogvs': [sub.to_dict() for sub in self.sub_iogvs]
-        }
-
-
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     post = db.Column(db.Text, nullable=False)
-    iogv_id = db.Column(db.String, db.ForeignKey('iogv.hierarchy_id'), nullable=True)
-    subdivision_id = db.Column(db.String, db.ForeignKey('iogv.hierarchy_id'), nullable=True)
-    person_id = db.Column(db.String, nullable=True)
+    subdivision = db.Column(db.String, nullable=False)
     created_at = db.Column(db.String, nullable=False)
-    iogv = db.relationship('Iogv', foreign_keys=[iogv_id], backref=db.backref('users', lazy=True))
-    subdivision = db.relationship('Iogv', foreign_keys=[subdivision_id],
-                                  backref=db.backref('subdivision_users', lazy=True))
+    committee_id = db.Column(db.Integer, db.ForeignKey('committees.id'))
+    committee = db.relationship('Committee', backref=db.backref('users', lazy=True))
 
     def to_dict(self):
         return {
             'id': self.id,
             'post': self.post,
-            'iogv_id': self.iogv_id,
-            'subdivision_id': self.subdivision_id,
-            'person_id': self.person_id,
+            'subdivision': self.subdivision,
+            'committee_id': self.committee_id,
             'created_at': self.created_at,
-            'iogv': self.iogv.to_dict() if self.iogv else None,
-            'subdivision': self.subdivision.to_dict() if self.subdivision else None
+            'committee': self.committee.to_dict() if self.committee else None,
         }
 
 
 class Record(db.Model):
-    __tablename__ = 'record'
+    __tablename__ = 'records'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    uid = db.Column(db.Integer, db.ForeignKey('users.id'))
-    responce_time = db.Column(db.String, nullable=True)
-    created_at = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    survey_id = db.Column(db.Integer, db.ForeignKey('surveys.id'), nullable=False)
+    response_time = db.Column(db.String, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    survey = db.relationship('Survey', backref=db.backref('records', lazy=True))
     user = db.relationship('User', backref=db.backref('records', lazy=True))
 
     def to_dict(self):
         return {
             'id': self.id,
-            'uid': self.uid,
-            'responce_time': self.responce_time,
+            'user_id': self.user_id,
+            'survey_id': self.survey_id,
+            'response_time': self.response_time,
             'created_at': self.created_at,
             'user': self.user.to_dict() if self.user else None
         }
 
 
-class Answer(db.Model):
-    __tablename__ = 'answers'
-    rid = db.Column(db.Integer, db.ForeignKey('record.id'), primary_key=True)
-    number_question = db.Column(db.Integer, primary_key=True)
-    answer = db.Column(db.Float, nullable=False)
-    comment = db.Column(db.String, nullable=True)
-    record = db.relationship('Record', backref=db.backref('answers', lazy=True))
-
-    def to_dict(self):
-        return {
-            'rid': self.rid,
-            'number_question': self.number_question,
-            'answer': self.answer,
-            'comment': self.comment,
-            'record': self.record.to_dict() if self.record else None
-        }
-
-
-class Report(db.Model):
-    __tablename__ = 'reports'
+class SurveySettings(db.Model):
+    __tablename__ = "survey_settings"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    iogv = db.Column(db.String, nullable=False)
-    subdv = db.Column(db.String, nullable=False)
-    post = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.String, nullable=False)
-    link = db.Column(db.String, nullable=False)
-    record_id = db.Column(db.Integer, db.ForeignKey('record.id', ondelete='CASCADE'))
-    record = db.relationship('Record', backref=db.backref('reports', lazy=True))
+    name = db.Column(db.String, nullable=False)
+    key = db.Column(db.String, nullable=False)
+    value = db.Column(db.String, nullable=False, unique=True)
+    survey_id = db.Column(db.Integer, db.ForeignKey('surveys.id', ondelete='CASCADE'))
 
     def to_dict(self):
         return {
             'id': self.id,
-            'iogv': self.iogv,
-            'subdv': self.subdv,
-            'post': self.post,
-            'created_at': self.created_at,
-            'link': self.link,
-            'record_id': self.record_id,
-            'record': self.record.to_dict() if self.record else None
+            "name": self.name,
+            'key': self.key,
+            'value': self.value,
+            'survey_id': self.survey_id
         }
 
 
 class Survey(db.Model):
     __tablename__ = 'surveys'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    question = db.Column(db.String, nullable=False)
-    answer = db.Column(db.String, nullable=True)
+    title = db.Column(db.String, nullable=False)
+    slug = db.Column(db.String, unique=True, nullable=False)
+    introduction = db.Column(db.String, nullable=True)
+    directions = db.relationship('Direction', backref='survey', lazy=True)
+    survey_instructions = db.relationship('SurveyInstruction', backref='survey', lazy=True)
+    survey_settings = db.relationship("SurveySettings", backref='survey', lazy=True)
 
     def to_dict(self):
         return {
             'id': self.id,
-            'question': self.question,
-            'answer': self.answer
+            'title': self.title,
+            'slug': self.slug,
+            'introduction': self.introduction,
+            'directions': [direction.to_dict() for direction in self.directions],
+            'survey_instructions': [instruction.to_dict() for instruction in self.survey_instructions],
+            'survey_settings': [settings.to_dict() for settings in self.survey_settings]
+        }
+
+
+class SurveyInstruction(db.Model):
+    __tablename__ = 'survey_instructions'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String, nullable=False)
+    body_html = db.Column(db.String, nullable=False)
+    survey_id = db.Column(db.Integer, db.ForeignKey('surveys.id', ondelete='CASCADE'))
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'body_html': self.body_html,
+            'survey_id': self.survey_id
         }
 
 
@@ -215,12 +181,16 @@ class Direction(db.Model):
     __tablename__ = 'directions'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
+    coefficient = db.Column(db.Integer, nullable=True)
+    survey_id = db.Column(db.Integer, db.ForeignKey('surveys.id', ondelete='CASCADE'))
     criterions = db.relationship('Criterion', backref='direction', lazy=True)
 
     def to_dict(self):
         return {
             'id': self.id,
             'title': self.title,
+            'coefficient': self.coefficient,
+            'survey_id': self.survey_id,
             'criterions': [criterion.to_dict() for criterion in self.criterions]
         }
 
@@ -230,8 +200,12 @@ class Criterion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     number = db.Column(db.String, nullable=False)
+    question_number = db.Column(db.Integer, default=0, nullable=False)
     weight = db.Column(db.Float, nullable=True)
-    needed_answer = db.Column(db.Boolean, default=False, nullable=False)
+    question = db.Column(db.String, default=None, nullable=True)
+    prompt = db.Column(db.String, default=None, nullable=True)
+    is_interview = db.Column(db.Boolean, default=False, nullable=True)
+    detailed_response = db.Column(db.Boolean, default=False, nullable=True)
     direction_id = db.Column(db.Integer, db.ForeignKey('directions.id'), nullable=False)
     subcriterions = db.relationship('Subcriterion', backref='criterion', lazy=True)
 
@@ -240,6 +214,12 @@ class Criterion(db.Model):
             'id': self.id,
             'title': self.title,
             'number': self.number,
+            'question_number': self.question_number,
+            'weight': self.weight,
+            'question': self.question,
+            'prompt': self.prompt,
+            'is_interview': self.is_interview,
+            'detailed_response': self.detailed_response,
             'direction_id': self.direction_id,
             'subcriterions': [subcriterion.to_dict() for subcriterion in self.subcriterions]
         }
@@ -251,8 +231,9 @@ class Subcriterion(db.Model):
     question_number = db.Column(db.Integer, nullable=False)
     title = db.Column(db.String, nullable=False)
     weight = db.Column(db.Float, nullable=False)
+    prompt = db.Column(db.String, nullable=True)
+    detailed_response = db.Column(db.Boolean, default=False, nullable=True)
     criterion_id = db.Column(db.Integer, db.ForeignKey('criterions.id'), nullable=False)
-    needed_answer = db.Column(db.Boolean, default=False, nullable=False)
     puncts = db.relationship('Punct', backref='subcriterion', lazy=True)
 
     def to_dict(self):
@@ -261,8 +242,9 @@ class Subcriterion(db.Model):
             'question_number': self.question_number,
             'title': self.title,
             'weight': self.weight,
+            'prompt': self.prompt,
+            'detailed_response': self.detailed_response,
             'criterion_id': self.criterion_id,
-            'needed_answer': self.needed_answer,
             'puncts': [punct.to_dict() for punct in self.puncts]
         }
 
@@ -286,4 +268,56 @@ class Punct(db.Model):
             'prompt': self.prompt,
             'comment': self.comment,
             'subcriterion_id': self.subcriterion_id
+        }
+
+
+class Answer(db.Model):
+    __tablename__ = 'answers'
+    id = db.Column(db.Integer, primary_key=True)
+    record_id = db.Column(db.Integer, db.ForeignKey('records.id', ondelete='CASCADE'))
+    criterion_id = db.Column(db.Integer, db.ForeignKey('criterions.id'), nullable=True)  # Answer can relate to a Criterion
+    subcriterion_id = db.Column(db.Integer, db.ForeignKey('subcriterions.id'), nullable=True)  # or a Subcriterion
+    punct_id = db.Column(db.Integer, db.ForeignKey('puncts.id'), nullable=True)  # or a Punct, if answer is a choice
+    answer_value = db.Column(db.Float, nullable=True)  # For graded answers
+    comment = db.Column(db.String, nullable=True)  # Optional comment for any answer
+    range_value = db.Column(db.Float, nullable=True)
+
+    # Relationships
+    record = db.relationship('Record', backref=db.backref('answers', lazy=True))
+    criterion = db.relationship('Criterion', backref=db.backref('answers', lazy=True))
+    subcriterion = db.relationship('Subcriterion', backref=db.backref('answers', lazy=True))
+    punct = db.relationship('Punct', backref=db.backref('answers', lazy=True))
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'record_id': self.record_id,
+            'criterion_id': self.criterion_id,
+            'subcriterion_id': self.subcriterion_id,
+            'punct_id': self.punct_id,
+            'answer_value': self.answer_value,
+            'comment': self.comment,
+            'range_value': self.range_value,
+            'record': self.record.to_dict() if self.record else None
+        }
+
+
+class Feedback(db.Model):
+    __tablename__ = 'feedback'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    submitted_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Feedback {self.id}>'
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'message': self.message,
+            'submitted_at': self.submitted_at
         }

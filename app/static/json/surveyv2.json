@@ -1,11 +1,30 @@
 {
-  "title_en": "Survey",
-  "title_ru": "Опросник",
-  "version": 2,
+  "title": "Опрос для ИОГВ",
+  "introduction": "<h5 class=\"card-title\">Уважаемый респондент!</h5>\n            <p class=\"card-text\">Во исполнение Стратегии в области цифровой трансформации отраслей экономики, социальной сферы и государственного управления Санкт-Петербурга от 11.10.2022, утвержденной Губернатором Санкт-Петербурга Бегловым А.Д., просим Вас принять участие в анкетировании по оценке цифровой зрелости.</p>\n            <p class=\"card-text\">В период с декабря 2021 по август 2022 года был проведен первый из трех предусмотренных этапов по оценке цифровой зрелости. В 2023 и в 2024 годах будут выполнены второй и третий этапы соответственно.</p>\n            <p class=\"card-text\">Анализ текущего состояния цифровой зрелости и сравнение результатов за предыдущий период позволяет выявлять приоритетные направления для повышения эффективности деятельности, а также по реализации наиболее эффективных мероприятий цифровой трансформации исполнительных органов государственной власти.</p>",
+  "settings": {
+    "Версия": {
+      "key": "version",
+      "value": "2.0.0"
+    },
+    "Диапазон по умолчанию": {
+      "key": "default_range",
+      "value": "0.25"
+    },
+    "Доступно для прохождения": {
+      "key": "visible",
+      "value": "true"
+    }
+  },
+  "slug": "iogv-survey",
+  "instruction": {
+    "title": "Инструкция по заполнению",
+    "body_html": "<div>\n    <h1 class=\"text-center\">Инструкция по заполнению</h1>\n    <p>Уважаемы респондент!</p>\n    <p>Вопросы по оценке цифровой зрелости разделены на шесть направлений (разделов):</p>\n    <ol>\n        <li>Организационная культура и управление (вопросы 1-13)</li>\n        <li>Кадры (вопросы 14-28)</li>\n        <li>Процессы (вопросы 29-37)</li>\n        <li>Продукты (вопросы 38-48)</li>\n        <li>Данные (вопросы 49-60)</li>\n        <li>Инфраструктура и инструменты (вопросы 61-66)</li>\n    </ol>\n    <p>В разделах представлено 66 вопросов (от 6 до 15 в каждом), необходимо выполнить 2 действия:</p>\n    <ol>\n        <li>выбрать утверждение, которое на Ваш взгляд наиболее точно описывает текущее состояние;</li>\n        <li>использовать подвижную шкалу для точного выбора значения (с разбивкой по уровням, шаг 0,25). Необходимо установить шкалу в соответствии с оценкой, которую Вы выбрали для каждого вопроса.</li>\n    </ol>\n    <p>Модель оценки – дискретная от 0 до 4, где 4 это максимально возможная оценка.</p>\n\n    <table class=\"table table-bordered table-striped\">\n        <thead>\n            <tr>\n                <th rowspan=\"2\">Критерий</th>\n                <th rowspan=\"2\">Ранг (ваша оценка)</th>\n                <th colspan=\"4\">Уровень цифровой зрелости</th>\n            </tr>\n            <tr>\n                <th>0-1</th>\n                <th>1-2</th>\n                <th>2-3</th>\n                <th>3-4</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr>\n                <td>Степень понимания инструкции по заполнению анкеты по ЦТ</td>\n                <td></td>\n                <td>Понимания заполнения нет, либо оно носит фрагментарный характер</td>\n                <td>Есть общее понимание по заполнению</td>\n                <td>Понимание по заполнению есть, но существуют вопросы к деталям</td>\n                <td>Все предельно понятно</td>\n            </tr>\n        </tbody>\n    </table>\n\n    <ul>\n        <li>да, формулировка полностью соответствует (2,0);</li>\n        <li>скорее да, чем нет (1,75);</li>\n        <li>затрудняюсь ответить (1,5);</li>\n        <li>скорее нет, чем да (1,25);</li>\n        <li>нет, формулировка полностью не соответствует (1,0).</li>\n    </ul>\n\n    <p>Системный подход при реализации мероприятий по повышению уровня цифровой зрелости на уровне города позволит выполнить точечную настройку существующих государственных информационных систем, внедрить единый подход при переходе от функциональной к процессной модели управления ИОГВ, значительно повысить эффективность при межведомственном взаимодействии, обеспечить направление комплексных заявок на обучение.</p>\n</div>\n"
+  },
   "data": {
     "directions": [
       {
         "title": "Организационная культура и управление",
+        "coefficient": 15,
         "criterions": [
           {
             "title": "Наличие Стратегии, проникновение в Стратегические документы",
@@ -45,8 +64,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 2,
@@ -82,8 +101,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 3,
@@ -119,10 +138,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Организационная структура",
@@ -162,10 +187,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Управление изменениями. Готовность к изменениям",
@@ -205,8 +236,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 6,
@@ -242,8 +273,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 7,
@@ -279,8 +310,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 8,
@@ -316,8 +347,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 9,
@@ -353,10 +384,16 @@
                     "comment": null
                   }
                 ],
-                "note": "Не менее двух примеров.",
-                "needed_answer": false
+                "prompt": "Не менее двух примеров.",
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Коммуникации",
@@ -396,8 +433,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 11,
@@ -433,8 +470,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 12,
@@ -470,10 +507,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Цифровизация в принятии решений",
@@ -513,15 +556,22 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           }
         ]
       },
       {
         "title": "Кадры",
+        "coefficient": 25,
         "criterions": [
           {
             "title": "Развитие персонала",
@@ -561,8 +611,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 15,
@@ -598,8 +648,8 @@
                     "comment": null
                   }
                 ],
-                "note": "Без учета курсов Stepik",
-                "needed_answer": false
+                "prompt": "Без учета курсов Stepik",
+                "detailed_response": false
               },
               {
                 "question_number": 16,
@@ -635,8 +685,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 17,
@@ -672,8 +722,8 @@
                     "comment": null
                   }
                 ],
-                "note": "Планирование, организация, руководство, мотивация, контроль.",
-                "needed_answer": false
+                "prompt": "Планирование, организация, руководство, мотивация, контроль.",
+                "detailed_response": false
               },
               {
                 "question_number": 18,
@@ -709,8 +759,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 19,
@@ -746,10 +796,16 @@
                     "comment": null
                   }
                 ],
-                "note": "В ИОГВ имеется функционирующая система мотивации сотрудников, участвующих в цифровой трансформации, реинжиниринге",
-                "needed_answer": false
+                "prompt": "В ИОГВ имеется функционирующая система мотивации сотрудников, участвующих в цифровой трансформации, реинжиниринге",
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Модель компетенций",
@@ -789,8 +845,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 21,
@@ -826,10 +882,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Наличие выделенного кадрового ресурса",
@@ -869,8 +931,8 @@
                     "comment": null
                   }
                 ],
-                "note": "С учетом сотрудников подведомственных ИОГВ организаций по фактически переданному основному функционалу",
-                "needed_answer": false
+                "prompt": "С учетом сотрудников подведомственных ИОГВ организаций по фактически переданному основному функционалу",
+                "detailed_response": false
               },
               {
                 "question_number": 23,
@@ -906,10 +968,16 @@
                     "comment": null
                   }
                 ],
-                "note": "С учетом сотрудников подведомственных ИОГВ организаций по фактически переданному основному функционалу",
-                "needed_answer": false
+                "prompt": "С учетом сотрудников подведомственных ИОГВ организаций по фактически переданному основному функционалу",
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Цифровые компетенции сотрудников",
@@ -949,8 +1017,8 @@
                     "comment": null
                   }
                 ],
-                "note": "Основные, вспомогательные, обеспечивающие, сопутствующие функции. Каково соотношение цифрового и ручного/бумажного труда? Примеры цифровых инструментов?",
-                "needed_answer": false
+                "prompt": "Основные, вспомогательные, обеспечивающие, сопутствующие функции. Каково соотношение цифрового и ручного/бумажного труда? Примеры цифровых инструментов?",
+                "detailed_response": false
               },
               {
                 "question_number": 25,
@@ -986,8 +1054,8 @@
                     "comment": null
                   }
                 ],
-                "note": "Какие данные?",
-                "needed_answer": false
+                "prompt": "Какие данные?",
+                "detailed_response": false
               },
               {
                 "question_number": 26,
@@ -1023,8 +1091,8 @@
                     "comment": null
                   }
                 ],
-                "note": "По каким направлениях? Если ответ 3, то в каком виде задокументирована модель.",
-                "needed_answer": false
+                "prompt": "По каким направлениях? Если ответ 3, то в каком виде задокументирована модель.",
+                "detailed_response": false
               },
               {
                 "question_number": 27,
@@ -1060,8 +1128,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 28,
@@ -1097,15 +1165,22 @@
                     "comment": null
                   }
                 ],
-                "note": "Применяемые в ИОГВ инструменты управления проектами. Базовый уровень: использование рабочего плана проекта с отображением в виде диаграммы Ганта. Средний уровень: диаграмма Ганта с логическими взаимосвязями между элементами. Высокий уровень: использование методов проектного управления, таких как метод  критического пути, метод освоенного объёма, PERT, SWOT анализ и т.д",
-                "needed_answer": false
+                "prompt": "Применяемые в ИОГВ инструменты управления проектами. Базовый уровень: использование рабочего плана проекта с отображением в виде диаграммы Ганта. Средний уровень: диаграмма Ганта с логическими взаимосвязями между элементами. Высокий уровень: использование методов проектного управления, таких как метод  критического пути, метод освоенного объёма, PERT, SWOT анализ и т.д",
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           }
         ]
       },
       {
         "title": "Процессы",
+        "coefficient": 20,
         "criterions": [
           {
             "title": "План оптимизации процессов",
@@ -1145,10 +1220,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Организация процессного управления",
@@ -1188,8 +1269,8 @@
                     "comment": null
                   }
                 ],
-                "note": "Примеры.",
-                "needed_answer": false
+                "prompt": "Примеры.",
+                "detailed_response": false
               },
               {
                 "question_number": 31,
@@ -1225,10 +1306,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Реестр процессов",
@@ -1268,10 +1355,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Документация процессов",
@@ -1311,10 +1404,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Стандартизация процессов",
@@ -1354,10 +1453,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Цифровизация процессов",
@@ -1397,10 +1502,16 @@
                     "comment": null
                   }
                 ],
-                "note": "Цифровизация процессов при наличии целесообразности",
-                "needed_answer": false
+                "prompt": "Цифровизация процессов при наличии целесообразности",
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Инструменты оптимизации процессов ('мозговой штурм', картирование, расчет показателей эффективности процессов, мониторинг показателей эффективности процессов, имитационное моделирование)",
@@ -1409,6 +1520,7 @@
             "question_number": 36,
             "weight": 0.1,
             "question": null,
+            "prompt": null,
             "detailed_response": true,
             "is_interview": true
           },
@@ -1419,6 +1531,7 @@
             "question_number": 37,
             "weight": 0.15,
             "question": null,
+            "prompt": null,
             "detailed_response": true,
             "is_interview": true
           }
@@ -1426,6 +1539,7 @@
       },
       {
         "title": "Продукты",
+        "coefficient": 15,
         "criterions": [
           {
             "title": "Регулярность создания продуктов",
@@ -1465,10 +1579,16 @@
                     "comment": null
                   }
                 ],
-                "note": "Есть план создания продуктов/ сервисов?",
-                "needed_answer": false
+                "prompt": "Есть план создания продуктов/ сервисов?",
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Эксплуатация продуктов (внутри ИОГВ)",
@@ -1508,10 +1628,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Интеграция продукта",
@@ -1551,10 +1677,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Уровень развития продукта",
@@ -1594,10 +1726,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Создание и распространение продукта",
@@ -1637,8 +1775,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 43,
@@ -1674,10 +1812,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Издержки при использовании продуктов",
@@ -1717,10 +1861,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Уровень отчетности/аналитики",
@@ -1760,10 +1910,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Степень цифровизации полномочий (государственных услуг, государственных функций)",
@@ -1803,8 +1959,8 @@
                     "comment": null
                   }
                 ],
-                "note": "Не учитывается ЕСЭДД.",
-                "needed_answer": false
+                "prompt": "Не учитывается ЕСЭДД.",
+                "detailed_response": false
               },
               {
                 "question_number": 47,
@@ -1840,10 +1996,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Актуальность и востребованность веб-сайта ИОГВ",
@@ -1852,6 +2014,7 @@
             "question_number": 48,
             "weight": 0.1,
             "question": null,
+            "prompt": null,
             "detailed_response": true,
             "is_interview": true
           }
@@ -1859,6 +2022,7 @@
       },
       {
         "title": "Данные",
+        "coefficient": 10,
         "criterions": [
           {
             "title": "Уровни зрелости архитектуры в области анализа данных",
@@ -1898,10 +2062,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Уровень систематизации данных",
@@ -1941,10 +2111,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Уровень полноты данных",
@@ -1984,10 +2160,16 @@
                     "comment": null
                   }
                 ],
-                "note": "Достаточность заполнения наборов данных и их атрибутов для осуществления деятельности ИОГВ.",
-                "needed_answer": false
+                "prompt": "Достаточность заполнения наборов данных и их атрибутов для осуществления деятельности ИОГВ.",
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Качество данных",
@@ -2027,10 +2209,16 @@
                     "comment": null
                   }
                 ],
-                "note": "1. Согласованность.\n2. Своевременность.\n3. Актуальность.\n4. Целостность.\n5. Точность.\n6. Полнота.\n7. Достоверность.\n",
-                "needed_answer": false
+                "prompt": "1. Согласованность.\n2. Своевременность.\n3. Актуальность.\n4. Целостность.\n5. Точность.\n6. Полнота.\n7. Достоверность.\n",
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Уровень обработки данных",
@@ -2070,10 +2258,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Способы доступа к данным",
@@ -2113,8 +2307,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 55,
@@ -2150,10 +2344,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Хранение данных",
@@ -2193,10 +2393,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Оперативность доступа к данным",
@@ -2236,10 +2442,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Управление жизненным циклом данных",
@@ -2279,10 +2491,16 @@
                     "comment": null
                   }
                 ],
-                "note": "Санитизация документов.",
-                "needed_answer": false
+                "prompt": "Санитизация документов.",
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Осведомленность в области безопасности данных",
@@ -2291,6 +2509,7 @@
             "question_number": 59,
             "weight": 0.1,
             "question": "Регламентация, аудиторские проверки, роли безопасности, 'должная осмотрительность', соблюдение политик безопасности, обучение. Декларативная или действующая.",
+            "prompt": null,
             "detailed_response": true,
             "is_interview": true
           },
@@ -2301,6 +2520,7 @@
             "question_number": 60,
             "weight": 0.1,
             "question": "Уровни защищенности ИС, обучение,ответственное лицо, определение угроз, внутренний контроль и аудит, опубликована политика в отношении обработки ПД.",
+            "prompt": null,
             "detailed_response": true,
             "is_interview": true
           }
@@ -2308,6 +2528,7 @@
       },
       {
         "title": "Инфраструктура и инструменты",
+        "coefficient": 15,
         "criterions": [
           {
             "title": "Уровень развития информационных систем",
@@ -2347,10 +2568,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Внутренние цифровые сервисы (ВЦС)",
@@ -2390,10 +2617,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Использование цифровых инструментов",
@@ -2433,8 +2666,8 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               },
               {
                 "question_number": 64,
@@ -2470,10 +2703,16 @@
                     "comment": null
                   }
                 ],
-                "note": "Какой процент задач можно решать с использованием того или иного цифрового инструмента.",
-                "needed_answer": false
+                "prompt": "Какой процент задач можно решать с использованием того или иного цифрового инструмента.",
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Возможности инструментов",
@@ -2513,10 +2752,16 @@
                     "comment": null
                   }
                 ],
-                "note": null,
-                "needed_answer": false
+                "prompt": null,
+                "detailed_response": false
               }
-            ]
+            ],
+            "question_number": 0,
+            "weight": 0,
+            "question": null,
+            "prompt": null,
+            "detailed_response": false,
+            "is_interview": false
           },
           {
             "title": "Обеспеченность базовой инфраструктурой (рабочие места, ПО, локальная сеть, интернет, пожарная сигнализация, видеонаблюдение, СКУД, интеграция в КСОБ)",
@@ -2525,6 +2770,7 @@
             "question_number": 66,
             "weight": 0.2,
             "question": null,
+            "prompt": null,
             "detailed_response": true,
             "is_interview": true
           }

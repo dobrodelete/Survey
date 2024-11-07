@@ -4,6 +4,8 @@ from flask_migrate import Migrate
 from flask_wtf import CSRFProtect
 
 from app.models import Admin, db
+from app.blueprints.admin import admin_bp
+from app.blueprints.survey import survey_bp
 
 migrate = Migrate()
 login_manager = LoginManager()
@@ -16,6 +18,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
     app.config['SQLALCHEMY_ECHO'] = False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['REPORTS_FOLDER'] = 'reports'
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -24,9 +27,6 @@ def create_app():
 
     login_manager.login_view = 'admin.login'
     login_manager.login_message_category = 'info'
-
-    from app.blueprints.admin.routes import admin_bp
-    from app.blueprints.survey.routes import survey_bp
 
     app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(survey_bp, url_prefix='/')

@@ -1,46 +1,66 @@
+function copy_text(text) {
+    console.log(text)
+    navigator.clipboard.writeText(text);
+}
+
 function printRangeValue(value, id) {
-    const options = document.getElementsByName(document.getElementById(id).dataset.questionId + "-radio");
-    let temp = 0;
-    for (const f of options) {
-        if (f.checked) {
-            temp = f.value;
+    const questionId = document.getElementById(id).dataset.questionId;
+    const radioOptions = document.getElementsByName(questionId + "-radio");
+    let selectedRadioValue = 0;
+
+    for (const option of radioOptions) {
+        if (option.checked) {
+            selectedRadioValue = parseFloat(option.value);
+            break;
         }
     }
-    document.getElementsByName(id + "-label")[0].textContent = "Ваша градация: " + (parseFloat(temp) + parseFloat(value));
+    const finalValue = selectedRadioValue + parseFloat(value);
+    document.getElementById(questionId + "-range-label").textContent = "Ваша градация: " + finalValue.toFixed(2);
     document.getElementById(id).value = value;
 }
 
 function printRadioValue(value, id) {
-    const data = document.getElementById(id).dataset.questionId + "-range";
-    document.getElementsByName(data + "-label")[0].textContent = "Ваша градация: " + (parseFloat(value) + parseFloat(document.getElementsByName(data)[0].value));
+    const questionId = document.getElementById(id).dataset.questionId;
+    const rangeElement = document.getElementsByName(questionId + "-range")[0];
+    const rangeValue = parseFloat(rangeElement.value) || 0;
+
+    const finalValue = parseFloat(value) + rangeValue;
+    document.getElementById(questionId + "-range-label").textContent = "Ваша градация: " + finalValue.toFixed(2);
+}
+
+function displayRangeValue(value, displayId) {
+    const displayElement = document.getElementById(displayId);
+    if (displayElement) {
+        displayElement.innerText = value;
+    }
 }
 
 function addComment(id) {
-    const quest = document.getElementById(id).dataset.questionId;
-    const container = document.getElementById(quest + "-comment-container");
-    const addButton = document.getElementById(quest + "-add-button");
-    const deleteButton = document.getElementById(quest + "-delete-button");
-    addButton.style.display = 'none'
-    deleteButton.style.display = null
-    container.innerHTML = `<textarea class="form-control" data-question-id="${quest}" id="${quest}-textarea" name="${quest}-textarea" rows="4" required></textarea>`
+    const questionId = document.getElementById(id).dataset.questionId;
+    const container = document.getElementById(`${questionId}-comment-container`);
+    const addButton = document.getElementById(`${questionId}-add-button`);
+    const deleteButton = document.getElementById(`${questionId}-delete-button`);
+
+    if (container && addButton && deleteButton) {
+        addButton.style.display = 'none';
+        deleteButton.style.display = 'block';
+        container.innerHTML = `<textarea class="form-control" id="${questionId}-textarea" name="${questionId}-comment" rows="4" required></textarea>`;
+    } else {
+        console.error("Unable to find comment elements for question:", questionId);
+    }
 }
 
 function deleteComment(id) {
-    const quest = document.getElementById(id).dataset.questionId
-    const container = document.getElementById(quest + "-comment-container");
-    const addButton = document.getElementById(quest + "-add-button");
-    const deleteButton = document.getElementById(quest + "-delete-button");
-    addButton.style.display = null
-    deleteButton.style.display = "none";
-    container.innerHTML = ""
-}
+    const questionId = document.getElementById(id).dataset.questionId;
+    const container = document.getElementById(`${questionId}-comment-container`);
+    const addButton = document.getElementById(`${questionId}-add-button`);
+    const deleteButton = document.getElementById(`${questionId}-delete-button`);
 
-async function getIogvList() {
-    let response = await fetch( "/api/v1/get_iogv");
-
-    if (response.ok) {
-        return await response.json()
+    if (container && addButton && deleteButton) {
+        addButton.style.display = 'block';
+        deleteButton.style.display = 'none';
+        container.innerHTML = "";
     } else {
-        alert("Ошибка HTTP: " + response.status);
+        console.error("Unable to find comment elements for question:", questionId);
     }
 }

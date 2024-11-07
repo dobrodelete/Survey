@@ -1,5 +1,5 @@
-from flask import Blueprint
+from .routes import survey_bp
 
-survey_bp = Blueprint('survey', __name__, template_folder='templates/survey')
-
-from . import routes
+__all__ = [
+    "survey_bp"
+]
